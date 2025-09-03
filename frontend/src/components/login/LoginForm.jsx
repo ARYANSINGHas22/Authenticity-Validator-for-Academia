@@ -33,15 +33,31 @@ const LoginForm = () => {
     return Object.keys(newErrors).length === 0; // return true if no errors
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return; // stop submit if errors
+    if (!validateForm()) return;
 
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Role:", role);
-    alert(`Email: ${email}\nPassword: ${password}\nRole: ${role}`);
+    try {
+      const res = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, role }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("✅ Login successful!");
+        console.log("User:", data.user);
+      } else {
+        alert("❌ " + data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("⚠️ Something went wrong. Try again later.");
+    }
   };
+
 
   const handleGoogleLogin = () => {
     alert("Login with Google clicked!");
