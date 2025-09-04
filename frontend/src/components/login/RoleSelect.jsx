@@ -16,7 +16,7 @@ const RoleSelect = ({ role, setRole }) => {
 
   return (
   <div style={{ display: "flex", flexDirection: "column" }}>
-    <label style={{ marginBottom: "5px", fontWeight: "bold" }}>Login as</label>
+    <label style={{ marginBottom: "5px", fontWeight: "bold" }}>Role</label>
     <Select
       options={options}
       value={options.find((o) => o.value === role)}

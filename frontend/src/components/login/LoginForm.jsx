@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import RoleSelect from "./RoleSelect";
+import { useNavigate } from "react-router-dom";
+
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [errors, setErrors] = useState({}); // store validation errors
+  const navigate = useNavigate();
+
+
 
   const validateForm = () => {
     const newErrors = {};
@@ -123,6 +128,8 @@ const LoginForm = () => {
           backgroundColor: "rgb(8, 27, 158)",
           color: "white",
         }}
+          onClick={() => navigate("/dashboard")}
+
       >
         Login
       </button>

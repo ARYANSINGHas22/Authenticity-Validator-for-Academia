@@ -1,6 +1,7 @@
 import React from "react";
 import LoginForm from "../components/login/LoginForm";
 
+
 const LoginPage = () => {
   return (
     <div className="d-flex flex-column align-items-center justify-content-center vh-100">

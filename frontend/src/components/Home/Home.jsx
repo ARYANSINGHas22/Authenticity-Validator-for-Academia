@@ -37,7 +37,7 @@ const Home = () => {
         {/* Navigation Links */}
         <div style={{ display: "flex", gap: "30px", alignItems: "center" }}>
           <button
-            onClick={() => handleNavigation("/dashboard")}
+            onClick={() => handleNavigation("/login")}
             style={{
               background: "none",
               border: "none",
