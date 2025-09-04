@@ -13,10 +13,11 @@ app.use(bodyParser.json());
 
 // MySQL connection
 const db = mysql.createConnection({
-  host: "localhost",
+  host: "maglev.proxy.rlwy.net",
+  port: 21040,
   user: "root", // change to your db user
-  password: "root123",
-  database: "test",
+  password: "oneZqLgElNurcTXDzfRpBQMgiWCFZUoG",
+  database: "railway",
 });
 
 // API route
