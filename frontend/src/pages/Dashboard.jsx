@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Simple icon components
 const Icons = {
@@ -66,19 +67,6 @@ const Icons = {
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
       <circle cx="12" cy="7" r="4"/>
     </svg>
-  ),
-  Lock: () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-      <circle cx="12" cy="16" r="1"/>
-      <path d="m7 11V7a5 5 0 0 1 10 0v4"/>
-    </svg>
-  ),
-  Mail: () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-      <polyline points="22,6 12,13 2,6"/>
-    </svg>
   )
 };
 
@@ -90,10 +78,8 @@ async function computeHash(file) {
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-
-// Main Dashboard Component
 function Dashboard() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("upload");
   const [showModal, setShowModal] = useState(false);
   const [modalTab, setModalTab] = useState("upload");
@@ -128,17 +114,15 @@ function Dashboard() {
     }
   ]);
 
-  // Handle authentication success
-  const handleAuthSuccess = () => {
-    setIsAuthenticated(true);
-  };
-
-  // Handle logout
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    // Clear authentication data
+    localStorage.removeItem('user');
+    localStorage.removeItem('authToken');
+    
+    // Navigate back to login page
+    navigate('/login', { replace: true });
   };
 
-  // Handle file upload
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -166,7 +150,6 @@ function Dashboard() {
     return 'Document';
   };
 
-  // Render status badge
   const renderStatus = (status) => {
     const styles = {
       verified: {
@@ -206,23 +189,21 @@ function Dashboard() {
     );
   };
 
-
-  // Dashboard styles (unchanged)
   const baseStyles = {
     container: {
       minHeight: '100vh',
       backgroundColor: '#f9fafb',
-      fontFamily: 'system-ui, -apple-system, sans-serif'
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
     },
     header: {
-      backgroundColor: 'white',
-      borderBottom: '1px solid #e5e7eb',
-      padding: '16px 0'
+      backgroundColor: '#4c6ef5',
+      color: 'white',
+      padding: '20px 0'
     },
     headerContent: {
-      maxWidth: '1280px',
+      maxWidth: '1200px',
       margin: '0 auto',
-      padding: '0 16px',
+      padding: '0 20px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between'
@@ -230,22 +211,17 @@ function Dashboard() {
     logoSection: {
       display: 'flex',
       alignItems: 'center',
-      gap: '12px'
-    },
-    logoIcon: {
-      padding: '8px',
-      borderRadius: '8px',
-      backgroundColor: '#dbeafe',
-      color: '#2563eb'
+      gap: '16px'
     },
     title: {
-      fontSize: '24px',
+      fontSize: '28px',
       fontWeight: 'bold',
-      color: '#111827',
-      margin: 0
+      color: 'white',
+      margin: 0,
+      letterSpacing: '-0.5px'
     },
     subtitle: {
-      color: '#6b7280',
+      color: 'rgba(255, 255, 255, 0.9)',
       margin: 0,
       fontSize: '14px'
     },
@@ -253,18 +229,29 @@ function Dashboard() {
       display: 'flex',
       gap: '12px'
     },
+    navButton: {
+      background: 'none',
+      border: 'none',
+      color: 'white',
+      fontSize: '16px',
+      cursor: 'pointer',
+      padding: '8px 16px',
+      borderRadius: '6px',
+      transition: 'background-color 0.2s',
+      fontWeight: '500'
+    },
     verifyButton: {
       display: 'inline-flex',
       alignItems: 'center',
       gap: '8px',
       padding: '8px 16px',
-      border: '1px solid #d1d5db',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
       borderRadius: '8px',
-      backgroundColor: 'white',
-      color: '#374151',
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      color: 'white',
       cursor: 'pointer',
       fontSize: '14px',
-      textDecoration: 'none'
+      fontWeight: '500'
     },
     logoutButton: {
       display: 'inline-flex',
@@ -277,7 +264,7 @@ function Dashboard() {
       color: 'white',
       cursor: 'pointer',
       fontSize: '14px',
-      textDecoration: 'none'
+      fontWeight: '500'
     },
     mainContent: {
       maxWidth: '1280px',
@@ -323,30 +310,6 @@ function Dashboard() {
       border: '1px solid #e5e7eb',
       padding: '32px'
     },
-    uploadHeader: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '8px',
-      marginBottom: '24px'
-    },
-    plusIcon: {
-      width: '20px',
-      height: '20px',
-      borderRadius: '4px',
-      backgroundColor: '#111827',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: 'white',
-      fontSize: '14px',
-      fontWeight: 'bold'
-    },
-    uploadTitle: {
-      fontSize: '20px',
-      fontWeight: '600',
-      color: '#111827',
-      margin: 0
-    },
     uploadArea: {
       border: '2px dashed #d1d5db',
       borderRadius: '12px',
@@ -357,43 +320,6 @@ function Dashboard() {
       cursor: 'pointer',
       transition: 'all 0.2s',
       textAlign: 'center'
-    },
-    uploadAreaHover: {
-      borderColor: '#3b82f6',
-      backgroundColor: '#eff6ff'
-    },
-    uploadIcon: {
-      width: '64px',
-      height: '64px',
-      backgroundColor: '#dbeafe',
-      borderRadius: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: '16px',
-      color: '#2563eb'
-    },
-    uploadText: {
-      fontSize: '18px',
-      fontWeight: '500',
-      color: '#111827',
-      marginBottom: '8px'
-    },
-    uploadSubtext: {
-      color: '#6b7280'
-    },
-    docGrid: {
-      display: 'grid',
-      gap: '24px',
-      gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))'
-    },
-    docCard: {
-      backgroundColor: 'white',
-      borderRadius: '12px',
-      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-      border: '1px solid #e5e7eb',
-      padding: '24px',
-      transition: 'box-shadow 0.2s'
     },
     modal: {
       position: 'fixed',
@@ -414,22 +340,29 @@ function Dashboard() {
     }
   };
 
-  // SCROLLABLE SIGNUP REMAINS OVER ANY OTHER LAYERS
   return (
     <div style={baseStyles.container}>
       {/* Header */}
       <header style={baseStyles.header}>
         <div style={baseStyles.headerContent}>
           <div style={baseStyles.logoSection}>
-            <div style={baseStyles.logoIcon}>
-              <Icons.Shield />
-            </div>
-            <div>
-              <h1 style={baseStyles.title}>Document Verification</h1>
-              <p style={baseStyles.subtitle}>Secure document authentication system</p>
-            </div>
+            <h1 style={baseStyles.title}>CertValidator</h1>
           </div>
-          <div style={baseStyles.headerButtons}>
+          <div style={{
+            display: 'flex',
+            gap: '32px',
+            alignItems: 'center'
+          }}>
+            <span style={{ fontSize: '16px', fontWeight: '600' }}>Dashboard</span>
+            <button
+              onClick={() => navigate('/about')}
+              style={baseStyles.navButton}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "rgba(255,255,255,0.1)"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
+              About
+            </button>
+            <span style={{ fontSize: '16px', fontWeight: '500' }}>Contact</span>
             <button
               onClick={() => setShowModal(true)}
               style={baseStyles.verifyButton}
@@ -475,26 +408,63 @@ function Dashboard() {
         {/* Upload Section */}
         {activeTab === "upload" && (
           <div style={baseStyles.uploadCard}>
-            <div style={baseStyles.uploadHeader}>
-              <div style={baseStyles.plusIcon}>+</div>
-              <h2 style={baseStyles.uploadTitle}>Upload New Document</h2>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginBottom: '24px'
+            }}>
+              <div style={{
+                width: '20px',
+                height: '20px',
+                borderRadius: '4px',
+                backgroundColor: '#111827',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontSize: '14px',
+                fontWeight: 'bold'
+              }}>+</div>
+              <h2 style={{
+                fontSize: '20px',
+                fontWeight: '600',
+                color: '#111827',
+                margin: 0
+              }}>Upload New Document</h2>
             </div>
             
             <label 
               style={baseStyles.uploadArea}
               onMouseEnter={(e) => {
-                Object.assign(e.target.style, baseStyles.uploadAreaHover);
+                e.target.style.borderColor = '#3b82f6';
+                e.target.style.backgroundColor = '#eff6ff';
               }}
               onMouseLeave={(e) => {
                 e.target.style.borderColor = '#d1d5db';
                 e.target.style.backgroundColor = 'transparent';
               }}
             >
-              <div style={baseStyles.uploadIcon}>
+              <div style={{
+                width: '64px',
+                height: '64px',
+                backgroundColor: '#dbeafe',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '16px',
+                color: '#2563eb'
+              }}>
                 <Icons.Upload />
               </div>
-              <h3 style={baseStyles.uploadText}>Upload Document</h3>
-              <p style={baseStyles.uploadSubtext}>
+              <h3 style={{
+                fontSize: '18px',
+                fontWeight: '500',
+                color: '#111827',
+                marginBottom: '8px'
+              }}>Upload Document</h3>
+              <p style={{ color: '#6b7280' }}>
                 Drag and drop your PDF here, or click to browse
               </p>
               <input
@@ -535,9 +505,19 @@ function Dashboard() {
               <span style={{ color: '#6b7280' }}>{documents.length} documents</span>
             </div>
             
-            <div style={baseStyles.docGrid}>
+            <div style={{
+              display: 'grid',
+              gap: '24px',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))'
+            }}>
               {documents.map((doc) => (
-                <div key={doc.id} style={baseStyles.docCard}>
+                <div key={doc.id} style={{
+                  backgroundColor: 'white',
+                  borderRadius: '12px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                  border: '1px solid #e5e7eb',
+                  padding: '24px'
+                }}>
                   <div style={{
                     display: 'flex',
                     alignItems: 'start',
@@ -638,7 +618,7 @@ function Dashboard() {
                       onClick={() => setShowModal(true)}
                       style={{
                         padding: '8px 16px',
-                        backgroundColor: '#2563eb',
+                        backgroundColor: 'rgb(8, 27, 158)',
                         color: 'white',
                         borderRadius: '8px',
                         border: 'none',
@@ -667,25 +647,12 @@ function Dashboard() {
                 padding: '24px',
                 borderBottom: '1px solid #e5e7eb'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{
-                    width: '24px',
-                    height: '24px',
-                    backgroundColor: '#dbeafe',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
-                    <span style={{ color: '#2563eb', fontSize: '14px', fontWeight: 'bold' }}>!</span>
-                  </div>
-                  <h2 style={{
-                    fontSize: '18px',
-                    fontWeight: '600',
-                    color: '#111827',
-                    margin: 0
-                  }}>Verify Document Authenticity</h2>
-                </div>
+                <h2 style={{
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  color: '#111827',
+                  margin: 0
+                }}>Verify Document Authenticity</h2>
                 <button
                   onClick={() => setShowModal(false)}
                   style={{
@@ -701,134 +668,33 @@ function Dashboard() {
                 </button>
               </div>
 
-              {/* Modal Tabs */}
-              <div style={{
-                display: 'flex',
-                backgroundColor: '#f9fafb',
-                borderBottom: '1px solid #e5e7eb'
-              }}>
-                <button
-                  style={{
-                    flex: 1,
-                    padding: '12px 24px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    border: 'none',
-                    backgroundColor: modalTab === 'upload' ? 'white' : 'transparent',
-                    color: modalTab === 'upload' ? '#111827' : '#6b7280',
-                    borderBottom: modalTab === 'upload' ? '2px solid #2563eb' : 'none',
-                    cursor: 'pointer'
-                  }}
-                  onClick={() => setModalTab("upload")}
-                >
-                  Upload Document
-                </button>
-                <button
-                  style={{
-                    flex: 1,
-                    padding: '12px 24px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    border: 'none',
-                    backgroundColor: modalTab === 'hash' ? 'white' : 'transparent',
-                    color: modalTab === 'hash' ? '#111827' : '#6b7280',
-                    borderBottom: modalTab === 'hash' ? '2px solid #2563eb' : 'none',
-                    cursor: 'pointer'
-                  }}
-                  onClick={() => setModalTab("hash")}
-                >
-                  Enter Hash
-                </button>
-              </div>
-
               <div style={{ padding: '24px' }}>
-                {/* Upload Document Tab */}
-                {modalTab === "upload" && (
-                  <div>
-                    <h3 style={{
-                      fontSize: '16px',
-                      fontWeight: '500',
-                      color: '#111827',
-                      marginBottom: '16px'
-                    }}>
-                      Upload the document you want to verify
-                    </h3>
-                    <label style={{
-                      cursor: 'pointer',
-                      border: '2px dashed #bfdbfe',
-                      borderRadius: '12px',
-                      padding: '48px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                      transition: 'all 0.2s'
-                    }}>
-                      <div style={{
-                        width: '64px',
-                        height: '64px',
-                        backgroundColor: '#dbeafe',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: '16px',
-                        color: '#2563eb'
-                      }}>
-                        <Icons.Upload />
-                      </div>
-                      <h4 style={{
-                        fontSize: '18px',
-                        fontWeight: '500',
-                        color: '#111827',
-                        marginBottom: '8px'
-                      }}>Upload Document</h4>
-                      <p style={{ color: '#6b7280', marginBottom: '4px' }}>
-                        Drag and drop your PDF here, or click to browse
-                      </p>
-                      <p style={{ fontSize: '14px', color: '#9ca3af' }}>Maximum file size: 10MB</p>
-                      <input type="file" accept="application/pdf" style={{ display: 'none' }} />
-                    </label>
-                  </div>
-                )}
-
-                {/* Enter Hash Tab */}
-                {modalTab === "hash" && (
-                  <div>
-                    <h3 style={{
-                      fontSize: '16px',
-                      fontWeight: '500',
-                      color: '#111827',
-                      marginBottom: '16px'
-                    }}>Document Hash (SHA-256)</h3>
-                    <input
-                      type="text"
-                      placeholder="Enter the SHA-256 hash of the document"
-                      style={{
-                        width: '100%',
-                        border: '1px solid #d1d5db',
-                        borderRadius: '8px',
-                        padding: '12px 16px',
-                        fontSize: '14px',
-                        fontFamily: 'monospace',
-                        marginBottom: '16px',
-                        boxSizing: 'border-box'
-                      }}
-                    />
-                    <button style={{
-                      width: '100%',
-                      backgroundColor: '#2563eb',
-                      color: 'white',
-                      padding: '12px',
-                      borderRadius: '8px',
-                      border: 'none',
-                      fontWeight: '500',
-                      cursor: 'pointer'
-                    }}>
-                      Verify
-                    </button>
-                  </div>
-                )}
+                <input
+                  type="text"
+                  placeholder="Enter the SHA-256 hash of the document"
+                  style={{
+                    width: '100%',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '8px',
+                    padding: '12px 16px',
+                    fontSize: '14px',
+                    fontFamily: 'monospace',
+                    marginBottom: '16px',
+                    boxSizing: 'border-box'
+                  }}
+                />
+                <button style={{
+                  width: '100%',
+                  backgroundColor: '#2563eb',
+                  color: 'white',
+                  padding: '12px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  fontWeight: '500',
+                  cursor: 'pointer'
+                }}>
+                  Verify
+                </button>
               </div>
             </div>
           </div>
@@ -839,4 +705,3 @@ function Dashboard() {
 }
 
 export default Dashboard;
-

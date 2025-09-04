@@ -227,8 +227,8 @@ const AuthForm = () => {
           backgroundColor: isLoading ? "#6c757d" : "rgb(8, 27, 158)",
           color: "white",
           opacity: isLoading ? 0.6 : 1
-        }}
-      >
+        }}       
+    >
         {isLoading 
           ? (isSignup ? "Creating Account..." : "Logging in...") 
           : (isSignup ? "Sign Up" : "Login")
