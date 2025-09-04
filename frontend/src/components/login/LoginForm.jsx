@@ -41,9 +41,11 @@ const AuthForm = () => {
     }
 
     // Role validation
-    if (!role) {
-      newErrors.role = "Please select a role";
-    }
+    
+if (!isSignup && !role) {
+  newErrors.role = "Please select a role";
+}
+
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -58,7 +60,7 @@ const AuthForm = () => {
     try {
       const endpoint = isSignup ? "/api/signup" : "/api/login";
       const payload = isSignup 
-        ? { email, password, confirmPassword, role }
+        ? { email, password, confirmPassword}
         : { email, password, role };
 
       const res = await fetch(`http://localhost:5000${endpoint}`, {
@@ -208,9 +210,15 @@ const AuthForm = () => {
         </div>
       )}
 
-      {/* Role Selection */}
-      <RoleSelect role={role} setRole={setRole} disabled={isLoading} />
-      {errors.role && <div className="text-danger">{errors.role}</div>}
+     
+      {/* Role Selection (only for login) */}
+{!isSignup && (
+  <>
+    <RoleSelect role={role} setRole={setRole} disabled={isLoading} />
+    {errors.role && <div className="text-danger">{errors.role}</div>}
+  </>
+)}
+
 
       {/* Show submit error if any */}
       {errors.submit && <div className="text-danger">{errors.submit}</div>}
