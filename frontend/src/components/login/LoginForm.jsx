@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import RoleSelect from "./RoleSelect";
 import { useNavigate } from "react-router-dom";
 
-
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [errors, setErrors] = useState({}); // store validation errors
+  const [isLoading, setIsLoading] = useState(false); // loading state
   const navigate = useNavigate();
-
-
 
   const validateForm = () => {
     const newErrors = {};
@@ -42,6 +40,8 @@ const LoginForm = () => {
     e.preventDefault();
     if (!validateForm()) return;
 
+    setIsLoading(true); // Start loading
+
     try {
       const res = await fetch("http://localhost:5000/api/login", {
         method: "POST",
@@ -52,20 +52,32 @@ const LoginForm = () => {
       const data = await res.json();
 
       if (res.ok) {
+        // Store user data if needed (e.g., in localStorage or context)
+        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('authToken', data.token); // if you have a token
+        
         alert("✅ Login successful!");
         console.log("User:", data.user);
+        
+        // Navigate to dashboard ONLY after successful login
+        navigate("/dashboard");
       } else {
         alert("❌ " + data.message);
+        setErrors({ submit: data.message }); // Show server error
       }
     } catch (err) {
       console.error(err);
       alert("⚠️ Something went wrong. Try again later.");
+      setErrors({ submit: "Network error. Please try again." });
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
-
   const handleGoogleLogin = () => {
     alert("Login with Google clicked!");
+    // Implement Google OAuth logic here
+    // After successful Google login, navigate to dashboard
   };
 
   return (
@@ -92,6 +104,7 @@ const LoginForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          disabled={isLoading}
         />
         {errors.email && <div className="invalid-feedback">{errors.email}</div>}
       </div>
@@ -109,43 +122,51 @@ const LoginForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          disabled={isLoading}
         />
         {errors.password && <div className="invalid-feedback">{errors.password}</div>}
       </div>
 
       {/* Role Selection */}
-      <RoleSelect role={role} setRole={setRole} />
+      <RoleSelect role={role} setRole={setRole} disabled={isLoading} />
       {errors.role && <div className="text-danger">{errors.role}</div>}
 
-      {/* Buttons */}
+      {/* Show submit error if any */}
+      {errors.submit && <div className="text-danger">{errors.submit}</div>}
+
+      {/* Login Button - REMOVED onClick that bypassed authentication */}
       <button
         type="submit"
         className="btn"
+        disabled={isLoading}
         style={{
           padding: "10px",
-          cursor: "pointer",
+          cursor: isLoading ? "not-allowed" : "pointer",
           borderRadius: "20px",
-          backgroundColor: "rgb(8, 27, 158)",
+          backgroundColor: isLoading ? "#6c757d" : "rgb(8, 27, 158)",
           color: "white",
+          opacity: isLoading ? 0.6 : 1
         }}
-          onClick={() => navigate("/dashboard")}
-
       >
-        Login
+        {isLoading ? "Logging in..." : "Login"}
       </button>
 
       <button
         type="button"
         onClick={handleGoogleLogin}
         className="btn btn-outline-dark"
-        style={{ padding: "10px", cursor: "pointer", borderRadius: "20px" }}
+        disabled={isLoading}
+        style={{ 
+          padding: "10px", 
+          cursor: isLoading ? "not-allowed" : "pointer", 
+          borderRadius: "20px",
+          opacity: isLoading ? 0.6 : 1
+        }}
       >
-        <i class="fa-brands fa-google"></i> Login with Google
+        <i className="fa-brands fa-google"></i> Login with Google
       </button>
     </form>
   );
 };
 
 export default LoginForm;
-
-

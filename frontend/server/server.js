@@ -46,5 +46,5 @@ app.post("/api/login", (req, res) => {
 });
 
 app.listen(process.env.PORT, () =>
-  console.log(`✅ Backend running on http://localhost:${process.env.PORT}`)
+  console.log(`✅ Backend running on http://localhost:5000`)
 );
