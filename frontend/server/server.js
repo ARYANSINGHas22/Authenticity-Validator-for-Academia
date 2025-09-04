@@ -1,29 +1,23 @@
 import express from "express";
 import bodyParser from "body-parser";
-import mysql from "mysql2";
+import mysql from "mysql2"; // or mongoose if MongoDB
 import cors from "cors";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const app = express();
-
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: "http://localhost:5173", // Allow your frontend origin
+  credentials: true
+}));
 
 app.use(bodyParser.json());
 
 // MySQL connection
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: "maglev.proxy.rlwy.net",
+  port: 21040,
+  user: "root", // change to your db user
+  password: "oneZqLgElNurcTXDzfRpBQMgiWCFZUoG",
+  database: "railway",
 });
 
 // API route
@@ -45,6 +39,4 @@ app.post("/api/login", (req, res) => {
   );
 });
 
-app.listen(process.env.PORT, () =>
-  console.log(`✅ Backend running on http://localhost:5000`)
-);
+app.listen(5000, () => console.log("✅ Backend running on http://localhost:5000"));
