@@ -208,10 +208,7 @@ const AuthForm = () => {
         </div>
       )}
 
-      {/* Role Selection */}
-      <RoleSelect role={role} setRole={setRole} disabled={isLoading} />
-      {errors.role && <div className="text-danger">{errors.role}</div>}
-
+  
       {/* Show submit error if any */}
       {errors.submit && <div className="text-danger">{errors.submit}</div>}
 
