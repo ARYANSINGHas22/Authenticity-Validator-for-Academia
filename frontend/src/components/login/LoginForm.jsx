@@ -67,7 +67,7 @@ const LoginForm = ({ isSignup: isSignupProp }) => {
 
         console.log("User:", data.user);
 
-        setTimeout(() => navigate("/dashboard"), 1000); // Navigate after 1s to show message
+        setTimeout(() => navigate("/Dashboard.jsx"), 1000); // Navigate after 1s to show message
       } else {
         setMessage("❌ " + data.message);
         setMessageType("error");
