@@ -70,7 +70,7 @@ const About = () => {
     }}>
       {/* Header - Consistent with Dashboard */}
       <header style={{
-        backgroundColor: "#4c6ef5",
+        backgroundColor: "rgb(8, 27, 158)",
         color: "white",
         padding: "20px 0"
       }}>
@@ -243,7 +243,7 @@ const About = () => {
                 <div style={{
                   width: "64px",
                   height: "64px",
-                  backgroundColor: "#4c6ef5",
+                  backgroundColor: "rgb(8, 27, 158)",
                   color: "white",
                   borderRadius: "16px",
                   display: "flex",
@@ -277,7 +277,7 @@ const About = () => {
 
       {/* Stats Section */}
       <section style={{
-        backgroundColor: "#4c6ef5",
+        backgroundColor: "rgb(8, 27, 158)",
         color: "white",
         padding: "80px 20px"
       }}>
@@ -367,13 +367,13 @@ const About = () => {
                   <span
                     key={index}
                     style={{
-                      backgroundColor: "#e7f5ff",
-                      color: "#1971c2",
+                      backgroundColor: "rgba(8, 27, 158, 0.1)",
+                      color: "rgb(8, 27, 158)",
                       padding: "8px 16px",
                       borderRadius: "20px",
                       fontSize: "14px",
                       fontWeight: "500",
-                      border: "1px solid #74c0fc"
+                      border: "1px solid rgba(8, 27, 158, 0.3)"
                     }}
                   >
                     {tech}
@@ -390,7 +390,7 @@ const About = () => {
               <div style={{
                 width: "120px",
                 height: "120px",
-                backgroundColor: "#4c6ef5",
+                backgroundColor: "rgb(8, 27, 158)",
                 borderRadius: "50%",
                 display: "flex",
                 alignItems: "center",
@@ -451,7 +451,7 @@ const About = () => {
           <button
             onClick={() => navigate('/login')}
             style={{
-              backgroundColor: "#4c6ef5",
+              backgroundColor: "rgb(8, 27, 158)",
               color: "white",
               padding: "16px 32px",
               borderRadius: "12px",
@@ -460,17 +460,17 @@ const About = () => {
               fontWeight: "600",
               cursor: "pointer",
               transition: "all 0.3s ease",
-              boxShadow: "0 4px 16px rgba(76, 110, 245, 0.3)"
+              boxShadow: "0 4px 16px rgba(8, 27, 158, 0.3)"
             }}
             onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "#364fc7";
+              e.target.style.backgroundColor = "rgba(8, 27, 158, 0.8)";
               e.target.style.transform = "translateY(-2px)";
-              e.target.style.boxShadow = "0 6px 20px rgba(76, 110, 245, 0.4)";
+              e.target.style.boxShadow = "0 6px 20px rgba(8, 27, 158, 0.4)";
             }}
             onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "#4c6ef5";
+              e.target.style.backgroundColor = "rgb(8, 27, 158)";
               e.target.style.transform = "translateY(0)";
-              e.target.style.boxShadow = "0 4px 16px rgba(76, 110, 245, 0.3)";
+              e.target.style.boxShadow = "0 4px 16px rgba(8, 27, 158, 0.3)";
             }}
           >
             Get Started Today
@@ -499,7 +499,7 @@ const About = () => {
             <div style={{
               width: "32px",
               height: "32px",
-              backgroundColor: "#4c6ef5",
+              backgroundColor: "rgb(8, 27, 158)",
               borderRadius: "8px",
               display: "flex",
               alignItems: "center",

@@ -72,7 +72,7 @@ const Contact = () => {
     }}>
       {/* Header - Consistent with other pages */}
       <header style={{
-        backgroundColor: "#4c6ef5",
+        backgroundColor: "rgb(8, 27, 158)",
         color: "white",
         padding: "20px 0"
       }}>
@@ -233,7 +233,7 @@ const Contact = () => {
                     backgroundColor: isLoading ? "#f9fafb" : "white",
                     boxSizing: "border-box"
                   }}
-                  onFocus={(e) => e.target.style.borderColor = "#4c6ef5"}
+                  onFocus={(e) => e.target.style.borderColor = "rgb(8, 27, 158)"}
                   onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
                 />
               </div>
@@ -266,7 +266,7 @@ const Contact = () => {
                     backgroundColor: isLoading ? "#f9fafb" : "white",
                     boxSizing: "border-box"
                   }}
-                  onFocus={(e) => e.target.style.borderColor = "#4c6ef5"}
+                  onFocus={(e) => e.target.style.borderColor = "rgb(8, 27, 158)"}
                   onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
                 />
               </div>
@@ -302,7 +302,7 @@ const Contact = () => {
                   backgroundColor: isLoading ? "#f9fafb" : "white",
                   boxSizing: "border-box"
                 }}
-                onFocus={(e) => e.target.style.borderColor = "#4c6ef5"}
+                onFocus={(e) => e.target.style.borderColor = "rgb(8, 27, 158)"}
                 onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
               />
             </div>
@@ -336,7 +336,7 @@ const Contact = () => {
                   backgroundColor: isLoading ? "#f9fafb" : "white",
                   boxSizing: "border-box"
                 }}
-                onFocus={(e) => e.target.style.borderColor = "#4c6ef5"}
+                onFocus={(e) => e.target.style.borderColor = "rgb(8, 27, 158)"}
                 onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
               />
             </div>
@@ -371,7 +371,7 @@ const Contact = () => {
                   backgroundColor: isLoading ? "#f9fafb" : "white",
                   boxSizing: "border-box"
                 }}
-                onFocus={(e) => e.target.style.borderColor = "#4c6ef5"}
+                onFocus={(e) => e.target.style.borderColor = "rgb(8, 27, 158)"}
                 onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
               />
             </div>
@@ -408,7 +408,7 @@ const Contact = () => {
                   resize: "vertical",
                   minHeight: "120px"
                 }}
-                onFocus={(e) => e.target.style.borderColor = "#4c6ef5"}
+                onFocus={(e) => e.target.style.borderColor = "rgb(8, 27, 158)"}
                 onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
               />
             </div>
@@ -420,7 +420,7 @@ const Contact = () => {
               style={{
                 width: "100%",
                 padding: "16px 32px",
-                backgroundColor: isLoading ? "#9ca3af" : "#4c6ef5",
+                backgroundColor: isLoading ? "#9ca3af" : "rgb(8, 27, 158)",
                 color: "white",
                 border: "none",
                 borderRadius: "12px",
@@ -432,13 +432,13 @@ const Contact = () => {
               }}
               onMouseEnter={(e) => {
                 if (!isLoading) {
-                  e.target.style.backgroundColor = "#364fc7";
+                  e.target.style.backgroundColor = "rgba(8, 27, 158, 0.8)";
                   e.target.style.transform = "translateY(-2px)";
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isLoading) {
-                  e.target.style.backgroundColor = "#4c6ef5";
+                  e.target.style.backgroundColor = "rgb(8, 27, 158)";
                   e.target.style.transform = "translateY(0)";
                 }
               }}
@@ -461,7 +461,7 @@ const Contact = () => {
         }}>
           {/* CTA Banner */}
           <div style={{
-            backgroundColor: "#4c6ef5",
+            backgroundColor: "rgb(8, 27, 158)",
             borderRadius: "16px",
             padding: "48px",
             marginBottom: "64px",
@@ -511,7 +511,7 @@ const Contact = () => {
                 <div style={{
                   width: "64px",
                   height: "64px",
-                  backgroundColor: "#4c6ef5",
+                  backgroundColor: "rgb(8, 27, 158)",
                   borderRadius: "16px",
                   display: "flex",
                   alignItems: "center",
@@ -565,7 +565,7 @@ const Contact = () => {
                 <div style={{
                   width: "64px",
                   height: "64px",
-                  backgroundColor: "#4c6ef5",
+                  backgroundColor: "rgb(8, 27, 158)",
                   borderRadius: "16px",
                   display: "flex",
                   alignItems: "center",
@@ -626,7 +626,7 @@ const Contact = () => {
             <div style={{
               width: "32px",
               height: "32px",
-              backgroundColor: "#4c6ef5",
+              backgroundColor: "rgb(8, 27, 158)",
               borderRadius: "8px",
               display: "flex",
               alignItems: "center",

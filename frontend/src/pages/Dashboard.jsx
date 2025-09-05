@@ -83,36 +83,7 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState("upload");
   const [showModal, setShowModal] = useState(false);
   const [modalTab, setModalTab] = useState("upload");
-  const [documents, setDocuments] = useState([
-    {
-      id: '1',
-      name: 'Bachelor_Degree_Certificate.pdf',
-      type: 'Degree Certificate',
-      size: '1.95 MB',
-      date: '15/01/2024',
-      hash: 'a1b2c3d4e5f6...',
-      status: 'verified',
-      verifiedBy: 'University Registry'
-    },
-    {
-      id: '2',
-      name: 'Final_Semester_Marksheet.pdf',
-      type: 'Academic Transcript',
-      size: '1.46 MB',
-      date: '10/02/2024',
-      hash: 'b2c3d4e5f678...',
-      status: 'pending'
-    },
-    {
-      id: '3',
-      name: 'Professional_Certificate.pdf',
-      type: 'Professional Certificate',
-      size: '1000 KB',
-      date: '20/02/2024',
-      hash: 'c3d4e5f67890...',
-      status: 'tampered'
-    }
-  ]);
+  const [documents, setDocuments] = useState([]);
 
   const handleLogout = () => {
     // Clear authentication data
@@ -196,7 +167,7 @@ function Dashboard() {
       fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
     },
     header: {
-      backgroundColor: '#4c6ef5',
+      backgroundColor: 'rgb(8, 27, 158)',
       color: 'white',
       padding: '20px 0'
     },
@@ -437,8 +408,8 @@ function Dashboard() {
             <label 
               style={baseStyles.uploadArea}
               onMouseEnter={(e) => {
-                e.target.style.borderColor = '#3b82f6';
-                e.target.style.backgroundColor = '#eff6ff';
+                e.target.style.borderColor = 'rgb(8, 27, 158)';
+                e.target.style.backgroundColor = 'rgba(8, 27, 158, 0.05)';
               }}
               onMouseLeave={(e) => {
                 e.target.style.borderColor = '#d1d5db';
@@ -448,13 +419,13 @@ function Dashboard() {
               <div style={{
                 width: '64px',
                 height: '64px',
-                backgroundColor: '#dbeafe',
+                backgroundColor: 'rgba(8, 27, 158, 0.1)',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginBottom: '16px',
-                color: '#2563eb'
+                color: 'rgb(8, 27, 158)'
               }}>
                 <Icons.Upload />
               </div>
@@ -505,134 +476,186 @@ function Dashboard() {
               <span style={{ color: '#6b7280' }}>{documents.length} documents</span>
             </div>
             
-            <div style={{
-              display: 'grid',
-              gap: '24px',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))'
-            }}>
-              {documents.map((doc) => (
-                <div key={doc.id} style={{
-                  backgroundColor: 'white',
-                  borderRadius: '12px',
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-                  border: '1px solid #e5e7eb',
-                  padding: '24px'
+            {documents.length === 0 ? (
+              <div style={{
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                border: '1px solid #e5e7eb',
+                padding: '48px',
+                textAlign: 'center'
+              }}>
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  backgroundColor: '#f3f4f6',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 16px auto',
+                  color: '#9ca3af'
                 }}>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'start',
-                    gap: '12px',
-                    marginBottom: '16px'
+                  <Icons.FileText />
+                </div>
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: '500',
+                  color: '#111827',
+                  marginBottom: '8px'
+                }}>No documents uploaded yet</h3>
+                <p style={{
+                  color: '#6b7280',
+                  marginBottom: '24px'
+                }}>
+                  Upload your first document to get started with verification.
+                </p>
+                <button
+                  onClick={() => setActiveTab("upload")}
+                  style={{
+                    padding: '12px 24px',
+                    backgroundColor: 'rgb(8, 27, 158)',
+                    color: 'white',
+                    borderRadius: '8px',
+                    border: 'none',
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Upload Document
+                </button>
+              </div>
+            ) : (
+              <div style={{
+                display: 'grid',
+                gap: '24px',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))'
+              }}>
+                {documents.map((doc) => (
+                  <div key={doc.id} style={{
+                    backgroundColor: 'white',
+                    borderRadius: '12px',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                    border: '1px solid #e5e7eb',
+                    padding: '24px'
                   }}>
                     <div style={{
-                      width: '40px',
-                      height: '40px',
-                      backgroundColor: '#dbeafe',
-                      borderRadius: '8px',
                       display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0
+                      alignItems: 'start',
+                      gap: '12px',
+                      marginBottom: '16px'
                     }}>
-                      <Icons.FileText />
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <h3 style={{
-                        fontWeight: '500',
-                        color: '#111827',
-                        margin: 0,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
-                      }}>{doc.name}</h3>
-                      <p style={{
-                        fontSize: '14px',
-                        color: '#6b7280',
-                        margin: '2px 0 0 0'
-                      }}>{doc.type} • {doc.size}</p>
-                    </div>
-                    {renderStatus(doc.status)}
-                  </div>
-                  
-                  <div style={{
-                    fontSize: '14px',
-                    color: '#6b7280',
-                    marginBottom: '16px'
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                      <span>Upload Date:</span>
-                      <span>{doc.date}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                      <span>Hash:</span>
-                      <span style={{ fontFamily: 'monospace', fontSize: '12px' }}>{doc.hash}</span>
-                    </div>
-                    {doc.verifiedBy && (
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <span>Verified by:</span>
-                        <span>{doc.verifiedBy}</span>
+                      <div style={{
+                        width: '40px',
+                        height: '40px',
+                        backgroundColor: 'rgba(8, 27, 158, 0.1)',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0
+                      }}>
+                        <Icons.FileText />
                       </div>
-                    )}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <h3 style={{
+                          fontWeight: '500',
+                          color: '#111827',
+                          margin: 0,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}>{doc.name}</h3>
+                        <p style={{
+                          fontSize: '14px',
+                          color: '#6b7280',
+                          margin: '2px 0 0 0'
+                        }}>{doc.type} • {doc.size}</p>
+                      </div>
+                      {renderStatus(doc.status)}
+                    </div>
+                    
+                    <div style={{
+                      fontSize: '14px',
+                      color: '#6b7280',
+                      marginBottom: '16px'
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                        <span>Upload Date:</span>
+                        <span>{doc.date}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+                        <span>Hash:</span>
+                        <span style={{ fontFamily: 'monospace', fontSize: '12px' }}>{doc.hash}</span>
+                      </div>
+                      {doc.verifiedBy && (
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span>Verified by:</span>
+                          <span>{doc.verifiedBy}</span>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button
+                        onClick={() => alert('View document!')}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          padding: '8px 12px',
+                          color: '#374151',
+                          border: '1px solid #d1d5db',
+                          borderRadius: '8px',
+                          backgroundColor: 'white',
+                          fontSize: '14px',
+                          flex: 1,
+                          justifyContent: 'center',
+                          cursor: 'pointer'
+                        }}>
+                        <Icons.Eye />
+                        View
+                      </button>
+                      <button
+                        onClick={() => alert('Download document!')}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          padding: '8px 12px',
+                          color: '#374151',
+                          border: '1px solid #d1d5db',
+                          borderRadius: '8px',
+                          backgroundColor: 'white',
+                          fontSize: '14px',
+                          flex: 1,
+                          justifyContent: 'center',
+                          cursor: 'pointer'
+                        }}>
+                        <Icons.Download />
+                        Download
+                      </button>
+                      <button
+                        onClick={() => setShowModal(true)}
+                        style={{
+                          padding: '8px 16px',
+                          backgroundColor: 'rgb(8, 27, 158)',
+                          color: 'white',
+                          borderRadius: '8px',
+                          border: 'none',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Verify
+                      </button>
+                    </div>
                   </div>
-                  
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button
-                      onClick={() => alert('View document!')}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        padding: '8px 12px',
-                        color: '#374151',
-                        border: '1px solid #d1d5db',
-                        borderRadius: '8px',
-                        backgroundColor: 'white',
-                        fontSize: '14px',
-                        flex: 1,
-                        justifyContent: 'center',
-                        cursor: 'pointer'
-                      }}>
-                      <Icons.Eye />
-                      View
-                    </button>
-                    <button
-                      onClick={() => alert('Download document!')}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        padding: '8px 12px',
-                        color: '#374151',
-                        border: '1px solid #d1d5db',
-                        borderRadius: '8px',
-                        backgroundColor: 'white',
-                        fontSize: '14px',
-                        flex: 1,
-                        justifyContent: 'center',
-                        cursor: 'pointer'
-                      }}>
-                      <Icons.Download />
-                      Download
-                    </button>
-                    <button
-                      onClick={() => setShowModal(true)}
-                      style={{
-                        padding: '8px 16px',
-                        backgroundColor: 'rgb(8, 27, 158)',
-                        color: 'white',
-                        borderRadius: '8px',
-                        border: 'none',
-                        fontSize: '14px',
-                        fontWeight: '500',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      Verify
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -685,7 +708,7 @@ function Dashboard() {
                 />
                 <button style={{
                   width: '100%',
-                  backgroundColor: '#2563eb',
+                  backgroundColor: 'rgb(8, 27, 158)',
                   color: 'white',
                   padding: '12px',
                   borderRadius: '8px',
