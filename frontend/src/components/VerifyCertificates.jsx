@@ -1,31 +1,64 @@
 import React, { useState } from "react";
+//import axios from "axios";
 
-const VerifyCertificates = ({ addToHistory }) => {
-  const [certId, setCertId] = useState("");
-  const [studentName, setStudentName] = useState("");
+const VerificationCertificate = () => {
+  const [file, setFile] = useState(null);
+  const [sha256, setSha256] = useState("");
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleVerify = () => {
-    if (!certId || !studentName) {
-      alert("Please enter Certificate ID and Student Name!");
+  // Generate SHA-256 hash of the uploaded file
+  const generateSHA = async (file) => {
+    const arrayBuffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  };
+
+  // Handle file upload
+  const handleFileChange = async (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    setResult(null);
+
+    if (selectedFile) {
+      const hash = await generateSHA(selectedFile);
+      setSha256(hash);
+    }
+  };
+
+  // Verify certificate by sending SHA to backend
+  const handleVerify = async () => {
+    if (!sha256) {
+      alert("Please upload a certificate first!");
       return;
     }
 
-    const newEntry = {
-      name: studentName,
-      certId: certId,
-      university: "Unknown",
-      date: new Date().toISOString().split("T")[0],
-      status: "verified",
-    };
-
-    addToHistory(newEntry);
-    setCertId("");
-    setStudentName("");
+    try {
+      setLoading(true);
+      const res = await axios.post("http://localhost:5000/api/verify", { sha256 });
+      setResult(res.data);
+    } catch (err) {
+      console.error(err);
+      setResult({ found: false, message: "Server error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div
-      className="card"
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
+      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          Verify Certificate
+        </h1>
+        <h2>
+        <i className="fa-solid fa-arrow-up-from-bracket"></i>&nbsp;&nbsp;Single Certificate Verification
+      </h2>
+<br></br>
+
+        {/* File Upload */}
+        <div className="card"
       style={{
         width: "100%",
         padding: "30px",
@@ -33,71 +66,64 @@ const VerifyCertificates = ({ addToHistory }) => {
         background: "#fff",
       }}
     >
-      <h2>
-        <i className="fa-solid fa-magnifying-glass"></i> Single Certificate
-        Verification
-      </h2>
-      <br />
-      <div style={{ display: "flex", gap: "20px", marginBottom: "15px" }}>
-        <div style={{ flex: 1 }}>
-          <label style={{ fontWeight: "bold" }}>Certificate ID</label>
+         <label style={{ fontWeight: "bold" }}>Upload Certificate for Verification</label> <br></br>
           <input
-            placeholder="Enter certificate ID"
-            value={certId}
-            onChange={(e) => setCertId(e.target.value)}
-            style={inputStyle}
+            type="file"
+            onChange={handleFileChange}
+            className="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
           />
         </div>
-        <div style={{ flex: 1 }}>
-          <label style={{ fontWeight: "bold" }}>Student Name</label>
-          <input
-            placeholder="Enter student name"
-            value={studentName}
-            onChange={(e) => setStudentName(e.target.value)}
-            style={inputStyle}
-          />
-        </div>
-      </div>
+       
 
-      <label style={{ fontWeight: "bold" }}>Upload Certificate Verification</label>
-      <br />
-      <input
-        type="file"
-        accept=".pdf,.png,.jpg,.jpeg"
-        style={inputFileStyle}
-      />
-      <div style={{ marginTop: "20px" }}>
-        <button style={buttonStyle} onClick={handleVerify}>
-          <i className="fa-solid fa-file"></i> Verify Certificate
-        </button>
+        {/* Show Generated SHA */}
+        {sha256 && (
+          <div className="mb-4 p-3 bg-gray-50 border rounded text-sm break-words">
+            <span className="font-medium">Generated SHA256:</span>
+            <p className="text-gray-600">{sha256}</p>
+          </div>
+        )}
+
+        {/* Verify Button */}
+       <button
+  onClick={handleVerify}
+  disabled={loading}
+  className="btn"
+  style={{
+    backgroundColor: "rgb(8, 27, 158)",
+    color: "#fff",
+    width: "100%",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    border: "none",
+    cursor: "pointer"
+  }}
+>
+  {loading ? "Verifying..." : "Verify Certificate"}
+</button>
+
+
+        {/* Result Display */}
+        {result && (
+          <div
+            className={`mt-6 p-4 rounded-lg text-center ${
+              result.found ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+            }`}
+          >
+            {result.found ? (
+              <div>
+                <p className="font-semibold">✅ Certificate Verified!</p>
+                <p>Certificate ID: {result.data.cert_id}</p>
+                <p>Candidate Name: {result.data.student_name}</p>
+              </div>
+            ) : (
+              <p>❌ {result.message || "Certificate not found"}</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-const inputStyle = {
-  padding: "10px",
-  width: "100%",
-  borderRadius: "5px",
-  border: "1px solid #ccc",
-};
+export default VerificationCertificate;
 
-const inputFileStyle = {
-  padding: "8px",
-  border: "1px solid #ccc",
-  borderRadius: "5px",
-  width: "100%",
-  cursor: "pointer",
-};
-
-const buttonStyle = {
-  backgroundColor: "rgb(8, 27, 158)",
-  color: "#fff",
-  width: "100%",
-  padding: "10px 20px",
-  borderRadius: "5px",
-  border: "none",
-  cursor: "pointer",
-};
-
-export default VerifyCertificates;

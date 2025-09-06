@@ -1,106 +1,67 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
 
 const VerificationHistory = () => {
-  const [file, setFile] = useState(null);
-  const [sha256, setSha256] = useState("");
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  // Generate SHA-256 hash
-  const generateSHA = async (file) => {
-    const arrayBuffer = await file.arrayBuffer();
-    const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-  };
-
-  // Handle file selection
-  const handleFileChange = async (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-    setResult(null);
-
-    if (selectedFile) {
-      const hash = await generateSHA(selectedFile);
-      setSha256(hash);
-    }
-  };
-
-  // Verify certificate by sending SHA to backend
-  const handleVerify = async () => {
-    if (!sha256) {
-      alert("Please upload a file first!");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      const res = await axios.post("http://localhost:5000/api/verify", { sha256 });
-      setResult(res.data);
-    } catch (err) {
-      console.error(err);
-      setResult({ found: false, message: "Server error" });
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Example certificate objects
+  const history = [
+    {
+      certId: "CERT-001",
+      name: "John Doe",
+      university: "MIT",
+      date: "2024-01-15",
+      status: "verified",
+    },
+    {
+      certId: "CERT-002",
+      name: "Jane Smith",
+      university: "Harvard",
+      date: "2024-01-20",
+      status: "unverified",
+    },
+    {
+      certId: "CERT-003",
+      name: "Alice Johnson",
+      university: "Stanford",
+      date: "2024-02-05",
+      status: "verified",
+    },
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-          Verification History – Verify Certificate
-        </h1>
+    <div className="bg-white p-6 rounded-2xl shadow-lg max-w-4xl mx-auto mt-6">
+      <h2 className="text-xl font-bold mb-4 text-center">Verification History</h2>
 
-        {/* File Upload */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2">
-            Upload Certificate
-          </label>
-          <input
-            type="file"
-            onChange={handleFileChange}
-            className="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
-          />
-        </div>
-
-        {/* Show Generated SHA */}
-        {sha256 && (
-          <div className="mb-4 p-3 bg-gray-50 border rounded text-sm break-words">
-            <span className="font-medium">Generated SHA256:</span>
-            <p className="text-gray-600">{sha256}</p>
-          </div>
-        )}
-
-        {/* Verify Button */}
-        <button
-          onClick={handleVerify}
-          disabled={loading}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 disabled:opacity-50"
-        >
-          {loading ? "Verifying..." : "Verify Certificate"}
-        </button>
-
-        {/* Result Display */}
-        {result && (
-          <div
-            className={`mt-6 p-4 rounded-lg text-center ${
-              result.found ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-            }`}
-          >
-            {result.found ? (
-              <div>
-                <p className="font-semibold">✅ Certificate Verified!</p>
-                <p>Certificate ID: {result.data.cert_id}</p>
-                <p>Candidate Name: {result.data.student_name}</p>
-              </div>
-            ) : (
-              <p>❌ {result.message || "Certificate not found"}</p>
-            )}
-          </div>
-        )}
-      </div>
+      {history.length === 0 ? (
+        <p className="text-center text-gray-500">No certificates verified yet.</p>
+      ) : (
+        <table className="w-full table-auto border-collapse">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border px-4 py-2">Certificate ID</th>
+              <th className="border px-4 py-2">Name</th>
+              <th className="border px-4 py-2">University</th>
+              <th className="border px-4 py-2">Date</th>
+              <th className="border px-4 py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {history.map((item, index) => (
+              <tr key={index} className="text-center">
+                <td className="border px-4 py-2">{item.certId}</td>
+                <td className="border px-4 py-2">{item.name}</td>
+                <td className="border px-4 py-2">{item.university}</td>
+                <td className="border px-4 py-2">{item.date}</td>
+                <td
+                  className={`border px-4 py-2 font-semibold ${
+                    item.status === "verified" ? "text-green-700" : "text-red-700"
+                  }`}
+                >
+                  {item.status}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

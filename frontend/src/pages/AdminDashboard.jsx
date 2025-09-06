@@ -1,10 +1,48 @@
-// pages/AdminDashboard.jsx
-import React from "react";
+import React, { useState } from "react";
+import SummaryCards from "../components/Admin/SummaryCards";
+import InstitutionManagement from "../components/Admin/InstitutionManagement";
+import RecentAlerts from "../components/Admin/RecentAlerts";
+import SystemStatus from "../components/Admin/SystemStatus";
 
-const AdminDashboard= () => {
+// Data
+const stats = [
+  { label: "Total Institutions", value: 247, iconClass: "fa-solid fa-building-columns", color: "#f0f4ff" },
+  { label: "Certificates Verified", value: 12487, iconClass: "fa-solid fa-square-check", color: "#e6fffa" },
+  { label: "Fraud Alerts", value: 23, iconClass: "fa-solid fa-triangle-exclamation", color: "#ffecec", textColor: "#d32f2f" },
+  { label: "Blacklist Entries", value: 89, iconClass: "fa-solid fa-ban", color: "#fff9e6", textColor: "#b26a00" },
+  { label: "Pending Verifications", value: 135, iconClass: "fa-solid fa-hourglass-half", color: "#e8f0fe", textColor: "#1a73e8" }
+];
+
+const institutionData = [
+  { name: "Harvard University", type: "University", certificates: 1247, status: "Active" },
+  { name: "MIT", type: "University", certificates: 892, status: "Active" },
+  { name: "Stanford University", type: "University", certificates: 1034, status: "Pending Review" },
+];
+
+const alerts = [
+  { type: "Suspicious Certificate Detected", message: 'Fake Harvard diploma submitted by employer "TechCorp Solutions"', time: "2 hours ago", color: "#ffecec" },
+  { type: "Unusual Upload Pattern", message: 'Agency "QuickHire" uploaded 50+ certificates in 10 minutes', time: "5 hours ago", color: "#fffbe6" },
+  { type: "Blacklist Match", message: "Known fraudulent employer attempted verification", time: "1 day ago", color: "#ffecec" },
+];
+
+const systemStatus = [
+  { name: "OCR Processing", status: "Online", color: "green" },
+  { name: "Database", status: "Online", color: "green" },
+  { name: "Blockchain Registry", status: "Syncing", color: "orange" },
+  { name: "Alert System", status: "Online", color: "green" },
+];
+
+const AdminDashboard = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Admin Dashboard</h1>
+    <div style={{ padding: "30px", fontFamily: "Arial" }}>
+      <h1 style={{ marginBottom: "20px" }}>Admin Dashboard</h1>
+
+      <SummaryCards stats={stats} />
+      <InstitutionManagement institutionData={institutionData} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <RecentAlerts alerts={alerts} />
+      <SystemStatus systemStatus={systemStatus} />
     </div>
   );
 };
