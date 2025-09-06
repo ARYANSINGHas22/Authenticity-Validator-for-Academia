@@ -23,55 +23,36 @@ const BulkUpload = ({ addMultipleToHistory }) => {
 
   return (
     <div
-      className="card w-full"
-      style={{
-        
-        padding: "40px",
-        borderRadius: "10px",
-        background: "#fff",
-      }}
+      className="w-full"
+      style={{ padding: "20px", borderRadius: "10px", background: "#fff" }}
     >
-      <h2>
-        <i className="fa-solid fa-arrow-up-from-bracket"></i>&nbsp;&nbsp;Bulk Certificate Upload
+      <h2 className="text-lg font-semibold mb-4">
+        <i className="fa-solid fa-arrow-up-from-bracket"></i> Bulk Certificate Upload
       </h2>
-      <br />
-      <label style={{ fontWeight: "bold" }}>Upload Multiple Certificates</label>
-      <br />
-      <input
-        type="file"
-        multiple
-        accept=".pdf,.png,.jpg,.jpeg,.csv,.zip"
-        onChange={(e) => setFiles(e.target.files)}
-        style={inputFileStyle}
-      />
-      <p style={{ color: "gray", marginTop: "1%" }}>
-        Supported formats: PDF, Images, CSV, ZIP files
-      </p>
-      <div style={{ marginTop: "20px" }}>
-        <button style={buttonStyle} onClick={handleBulkUpload}>
-          <i className="fa-solid fa-arrow-up-from-bracket"></i> Process Bulk Upload
-        </button>
+
+      <div className="mb-4" style={{ padding: "20px", borderRadius: "10px", background: "#f9f9f9" }}>
+        <label className="font-bold">Upload Multiple Certificates</label>
+        <br />
+        <input
+          type="file"
+          multiple
+          accept=".pdf,.png,.jpg,.jpeg,.csv,.zip"
+          onChange={(e) => setFiles(e.target.files)}
+          className="block w-full mt-2 p-2 border border-gray-300 rounded cursor-pointer"
+        />
+        <p className="text-gray-500 mt-1 text-sm">
+          Supported formats: PDF, Images, CSV, ZIP files
+        </p>
       </div>
+
+      <button
+        onClick={handleBulkUpload}
+        className="w-full py-2 bg-blue-800 text-white rounded"
+      >
+        Process Bulk Upload
+      </button>
     </div>
   );
-};
-
-const inputFileStyle = {
-  padding: "8px",
-  border: "1px solid #ccc",
-  borderRadius: "5px",
-  width: "100%",
-  cursor: "pointer",
-};
-
-const buttonStyle = {
-  backgroundColor: "rgb(8, 27, 158)",
-  color: "#fff",
-  width: "100%",
-  padding: "10px 20px",
-  borderRadius: "5px",
-  border: "none",
-  cursor: "pointer",
 };
 
 export default BulkUpload;
