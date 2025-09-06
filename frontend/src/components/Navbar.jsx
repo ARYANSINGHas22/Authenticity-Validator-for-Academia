@@ -9,6 +9,20 @@ function Navbar() {
     navigate(path);
   };
 
+  const handleDashboardClick = () => {
+    // Get user role from localStorage, context, or wherever you store it
+    const userRole = localStorage.getItem('userRole'); // or sessionStorage, context, etc.
+    
+    if (userRole === 'admin' || userRole === 'administrator') {
+      navigate('/admin');
+    } else if (userRole === 'employer') {
+      navigate('/employer');
+    } else {
+      // If no role found, redirect to login
+      navigate('/login');
+    }
+  };
+
   const navButtonStyle = {
     background: "none",
     border: "none",
@@ -48,7 +62,7 @@ function Navbar() {
       {/* Navigation Links */}
       <div style={{ display: "flex", gap: "30px", alignItems: "center" }}>
         <button
-          onClick={() => handleNavigation("/dashboard")}
+          onClick={handleDashboardClick}
           style={navButtonStyle}
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";

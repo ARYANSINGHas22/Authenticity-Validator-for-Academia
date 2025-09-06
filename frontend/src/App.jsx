@@ -63,11 +63,10 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
-import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Contact from "./pages/Contact";
-import AdminDashboard from "./pages/AdminDashboard"; 
+import AdminDashboard from "./pages/AdminDashboard";
 import EmployeeDashboard from "./pages/EmployerDashboard"; // ✅ make sure file name matches
 
 function AppWrapper() {
@@ -90,15 +89,7 @@ function AppWrapper() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/employer" element={<EmployeeDashboard />} />
 
-        {/* Protected Example */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+       
 
         {/* 404 fallback */}
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
