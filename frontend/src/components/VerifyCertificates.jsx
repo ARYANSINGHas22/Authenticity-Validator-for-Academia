@@ -1,7 +1,8 @@
+// VerificationCertificate.jsx
 import React, { useState } from "react";
 import axios from "axios";
 
-const VerificationCertificate = () => {
+const VerificationCertificate = ({ onResult }) => {
   const [file, setFile] = useState(null);
   const [sha256, setSha256] = useState("");
   const [result, setResult] = useState(null);
@@ -38,42 +39,41 @@ const VerificationCertificate = () => {
       setLoading(true);
       const res = await axios.post("http://localhost:5000/api/verify", { sha256 });
       setResult(res.data);
+
+      // Send result to parent Dashboard
+      if (onResult) onResult(res.data);
     } catch (err) {
       console.error(err);
-      setResult({ found: false, message: "Server error" });
+      const errorResult = { found: false, message: "Server error" };
+      setResult(errorResult);
+      if (onResult) onResult(errorResult);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-          Verify Certificate
-        </h1>
+    <div className="card"
+          style={{  padding: "30px", borderRadius: "10px", background: "#fff" }}>
+        
         <h2>
-        <i className="fa-solid fa-arrow-up-from-bracket"></i>&nbsp;&nbsp;Single Certificate Verification
-      </h2>
-<br></br>
+          <i className="fa-solid fa-arrow-up-from-bracket"></i>&nbsp;&nbsp;Single Certificate Verification
+        </h2>
+        <br />
 
         {/* File Upload */}
-        <div className="card"
-      style={{
-        width: "100%",
-        padding: "30px",
-        borderRadius: "10px",
-        background: "#fff",
-      }}
-    >
-         <label style={{ fontWeight: "bold" }}>Upload Certificate for Verification</label> <br></br>
+        <div
+          className="card"
+          style={{ padding: "30px", borderRadius: "10px", background: "#fff" }}
+        >
+          <label style={{ fontWeight: "bold" }}>Upload Certificate for Verification</label>
+          <br />
           <input
             type="file"
             onChange={handleFileChange}
             className="block w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer focus:outline-none"
           />
         </div>
-       
 
         {/* Show Generated SHA */}
         {sha256 && (
@@ -84,23 +84,22 @@ const VerificationCertificate = () => {
         )}
 
         {/* Verify Button */}
-       <button
-  onClick={handleVerify}
-  disabled={loading}
-  className="btn"
-  style={{
-    backgroundColor: "rgb(8, 27, 158)",
-    color: "#fff",
-    width: "100%",
-    padding: "10px 20px",
-    borderRadius: "5px",
-    border: "none",
-    cursor: "pointer"
-  }}
->
-  {loading ? "Verifying..." : "Verify Certificate"}
-</button>
-
+        <button
+          onClick={handleVerify}
+          disabled={loading}
+          className="btn"
+          style={{
+            backgroundColor: "rgb(8, 27, 158)",
+            color: "#fff",
+            //width: "100%",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          {loading ? "Verifying..." : "Verify Certificate"}
+        </button>
 
         {/* Result Display */}
         {result && (
@@ -120,10 +119,8 @@ const VerificationCertificate = () => {
             )}
           </div>
         )}
-      </div>
-    </div>
+     </div>
   );
 };
 
 export default VerificationCertificate;
-

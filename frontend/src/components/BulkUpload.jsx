@@ -23,10 +23,10 @@ const BulkUpload = ({ addMultipleToHistory }) => {
 
   return (
     <div
-      className="card"
+      className="card w-full"
       style={{
-        width: "100%",
-        padding: "30px",
+        
+        padding: "40px",
         borderRadius: "10px",
         background: "#fff",
       }}
