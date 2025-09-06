@@ -23,8 +23,8 @@ const BulkUpload = ({ addMultipleToHistory }) => {
 
   return (
     <div
-      className="w-full"
-      style={{ padding: "20px", borderRadius: "10px", background: "#fff" }}
+      className="w-full card"
+      style={{ padding: "20px", borderRadius: "10px", background: "#fff",height:"100%" }}
     >
       <h2 className="text-lg font-semibold mb-4">
         <i className="fa-solid fa-arrow-up-from-bracket"></i> Bulk Certificate Upload

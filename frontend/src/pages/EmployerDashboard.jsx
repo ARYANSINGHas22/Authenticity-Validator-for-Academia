@@ -1,10 +1,31 @@
 import React, { useState } from "react";
 import BulkUpload from "../components/BulkUpload";
 import VerificationCertificate from "../components/VerifyCertificates";
-import { useNavigate } from "react-router-dom";
+import "../App.css";
 
 const EmployerDashboard = () => {
-  const [verificationHistory, setVerificationHistory] = useState([]);
+// Dummy data in Verification History
+  const [verificationHistory, setVerificationHistory] = useState([
+    {
+      found: true,
+      data: {
+        cert_id: "CERT-2025-001",
+        student_name: "Alice Johnson",
+      },
+    },
+    {
+      found: false,
+      message: "Certificate not found",
+    },
+    {
+      found: true,
+      data: {
+        cert_id: "CERT-2025-002",
+        student_name: "Bob Smith",
+      },
+    },
+  ]);
+
 
   const handleNewResult = (result) => {
     setVerificationHistory((prev) => [result, ...prev]);
@@ -15,35 +36,35 @@ const EmployerDashboard = () => {
   };
 
   return (
-    <div className="p-6 w-full">
-      <h1 className="text-2xl font-bold mb-4">Employer Dashboard</h1>
+    <div className="dashboard-container">
+      <h1 className="dashboard-title">Employer Dashboard</h1>
 
-      {/* Side by side flex container */}
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="flex-1">
+      {/* Side by side components */}
+      <div className="dashboard-row">
+        <div className="dashboard-column">
           <VerificationCertificate onResult={handleNewResult} />
         </div>
-        <div className="flex-1">
+        <div className="dashboard-column">
           <BulkUpload addMultipleToHistory={handleBulkUpload} />
         </div>
       </div>
 
       {/* Verification History */}
-      <h1 className="text-xl font-semibold mt-6">Verification History</h1>
-      <div className="mt-4 space-y-3">
+      <h1 className="dashboard-history-title">Verification History</h1>
+      <div className="history-list">
         {verificationHistory.length === 0 && (
-          <p className="text-gray-500">No verification done yet.</p>
+          <p className="no-history">No verification done yet.</p>
         )}
         {verificationHistory.map((item, index) => (
           <div
             key={index}
-            className={`p-4 rounded-lg text-center ${
-              item.found ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+            className={`history-item ${
+              item.found ? "verified" : "not-verified"
             }`}
           >
             {item.found ? (
               <div>
-                <p className="font-semibold">✅ Certificate Verified!</p>
+                <p>✅ Certificate Verified!</p>
                 <p>Certificate ID: {item.data.cert_id}</p>
                 <p>Candidate Name: {item.data.student_name}</p>
               </div>
