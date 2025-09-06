@@ -4,19 +4,13 @@ import InstitutionManagement from "../components/Admin/InstitutionManagement";
 import RecentAlerts from "../components/Admin/RecentAlerts";
 import SystemStatus from "../components/Admin/SystemStatus";
 
-// Data
+// Static data
 const stats = [
   { label: "Total Institutions", value: 247, iconClass: "fa-solid fa-building-columns", color: "#f0f4ff" },
   { label: "Certificates Verified", value: 12487, iconClass: "fa-solid fa-square-check", color: "#e6fffa" },
   { label: "Fraud Alerts", value: 23, iconClass: "fa-solid fa-triangle-exclamation", color: "#ffecec", textColor: "#d32f2f" },
   { label: "Blacklist Entries", value: 89, iconClass: "fa-solid fa-ban", color: "#fff9e6", textColor: "#b26a00" },
   { label: "Pending Verifications", value: 135, iconClass: "fa-solid fa-hourglass-half", color: "#e8f0fe", textColor: "#1a73e8" }
-];
-
-const institutionData = [
-  { name: "Harvard University", type: "University", certificates: 1247, status: "Active" },
-  { name: "MIT", type: "University", certificates: 892, status: "Active" },
-  { name: "Stanford University", type: "University", certificates: 1034, status: "Pending Review" },
 ];
 
 const alerts = [
@@ -34,13 +28,25 @@ const systemStatus = [
 
 const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Convert institutionData to state so it can be updated
+  const [institutionData, setInstitutionData] = useState([
+    { id: 1, name: "Harvard University", type: "University", certificates: 1247, status: "Active" },
+    { id: 2, name: "MIT", type: "University", certificates: 892, status: "Active" },
+    { id: 3, name: "Stanford University", type: "University", certificates: 1034, status: "Pending Review" },
+  ]);
 
   return (
     <div style={{ padding: "30px", fontFamily: "Arial" }}>
       <h1 style={{ marginBottom: "20px" }}>Admin Dashboard</h1>
-
+      
       <SummaryCards stats={stats} />
-      <InstitutionManagement institutionData={institutionData} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <InstitutionManagement 
+        institutionData={institutionData} 
+        setInstitutionData={setInstitutionData}  // Pass the setter function
+        searchTerm={searchTerm} 
+        setSearchTerm={setSearchTerm} 
+      />
       <RecentAlerts alerts={alerts} />
       <SystemStatus systemStatus={systemStatus} />
     </div>
