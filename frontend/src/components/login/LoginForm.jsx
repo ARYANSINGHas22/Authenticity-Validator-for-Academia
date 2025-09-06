@@ -58,29 +58,62 @@ const LoginForm = ({ isSignup: isSignupProp }) => {
 
       const data = await res.json();
 
-      if (res.ok) {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        localStorage.setItem("authToken", data.token);
+    //   if (res.ok) {
+    //     localStorage.setItem("user", JSON.stringify(data.user));
+    //     localStorage.setItem("authToken", data.token);
 
-        setMessage(isSignup ? "✅ Account created successfully!" : "✅ Login successful!");
-        setMessageType("success");
+    //     setMessage(isSignup ? "✅ Account created successfully!" : "✅ Login successful!");
+    //     setMessageType("success");
 
-        console.log("User:", data.user);
+    //     console.log("User:", data.user);
 
-        setTimeout(() => navigate("/Dashboard.jsx"), 1000); // Navigate after 1s to show message
-      } else {
-        setMessage("❌ " + data.message);
-        setMessageType("error");
-        setErrors({ submit: data.message });
-      }
-    } catch (err) {
-      console.error(err);
-      setMessage("⚠️ Something went wrong. Try again later.");
-      setMessageType("error");
-      setErrors({ submit: "Network error. Please try again." });
-    } finally {
-      setIsLoading(false);
+    //     setTimeout(() => navigate("/Dashboard.jsx"), 1000); // Navigate after 1s to show message
+    //   } else {
+    //     setMessage("❌ " + data.message);
+    //     setMessageType("error");
+    //     setErrors({ submit: data.message });
+    //   }
+    // } catch (err) {
+    //   console.error(err);
+    //   setMessage("⚠️ Something went wrong. Try again later.");
+    //   setMessageType("error");
+    //   setErrors({ submit: "Network error. Please try again." });
+    // } finally {
+    //   setIsLoading(false);
+    // }
+    if (res.ok) {
+  localStorage.setItem("user", JSON.stringify(data.user));
+  localStorage.setItem("authToken", data.token);
+
+  setMessage(isSignup ? "✅ Account created successfully!" : "✅ Login successful!");
+  setMessageType("success");
+
+  console.log("User:", data.user);
+
+  // Role-based navigation after 1s
+  setTimeout(() => {
+    if (data.user.role === "Administrator") {
+      navigate("/admin"); // Admin dashboard route
+    } else if (data.user.role === "Employer") {
+      navigate("/employer"); // Employee dashboard route
+    } else {
+      navigate("/"); 
     }
+  }, 1000);
+} else {
+  setMessage("❌ " + data.message);
+  setMessageType("error");
+  setErrors({ submit: data.message });
+}
+} catch (err) {
+  console.error(err);
+  setMessage("⚠️ Something went wrong. Try again later.");
+  setMessageType("error");
+  setErrors({ submit: "Network error. Please try again." });
+} finally {
+  setIsLoading(false);
+}
+
   };
 
   const handleGoogleAuth = () => {
