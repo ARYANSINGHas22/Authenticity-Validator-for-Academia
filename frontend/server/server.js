@@ -39,4 +39,33 @@ app.post("/api/login", (req, res) => {
   );
 });
 
+
+app.post("/api/verify", (req, res) => {
+  const { sha256 } = req.body;
+
+  if (!sha256) {
+    return res.status(400).json({ message: "SHA ID is required" });
+  }
+
+  db.query(
+    "SELECT certi_id, C_name FROM Certificate WHERE sha_id = ? LIMIT 1",
+    [sha256],
+    (err, results) => {
+      if (err) return res.status(500).json({ message: "Server error" });
+
+      if (results.length > 0) {
+        res.json({
+          found: true,
+          data: {
+            cert_id: results[0].certi_id,
+            student_name: results[0].C_name,
+          },
+        });
+      } else {
+        res.json({ found: false, message: "Certificate not found" });
+      }
+    }
+  );
+});
+
 app.listen(5000, () => console.log("✅ Backend running on http://localhost:5000"));
