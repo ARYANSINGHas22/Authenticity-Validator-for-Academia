@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const VerificationCertificate = ({ onResult }) => {
@@ -7,6 +6,16 @@ const VerificationCertificate = ({ onResult }) => {
   const [sha256, setSha256] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // Auto-hide popup after 3 seconds
+  useEffect(() => {
+    if (result) {
+      const timer = setTimeout(() => {
+        setResult(null);
+      }, 3000); // hide after 3s
+      return () => clearTimeout(timer);
+    }
+  }, [result]);
 
   const generateSHA = async (file) => {
     const arrayBuffer = await file.arrayBuffer();
@@ -46,62 +55,47 @@ const VerificationCertificate = ({ onResult }) => {
   };
 
   return (
-    <div
-      className="w-full card"
-      style={{ padding: "20px", borderRadius: "10px", background: "#fff",height:"100%" }}
-    >
-      <h2 className="text-lg font-semibold mb-4">
-        <i className="fa-solid fa-arrow-up-from-bracket"></i> Single Certificate Verification
-      </h2>
-
+    <div>
       <div
-        className="mb-4"
-        style={{ padding: "20px", borderRadius: "10px", background: "#f9f9f9" }}
+        className="w-full card"
+        style={{ padding: "20px", borderRadius: "10px", background: "#fff", height: "100%" }}
       >
-        <label className="font-bold">Upload Certificate for Verification</label>
-        <br />
-        <input
-          type="file"
-          onChange={handleFileChange}
-          className="block w-full mt-2 p-2 border border-gray-300 rounded cursor-pointer"
-        />
-        <br></br><br></br>
-      </div>
+        <h2 className="text-lg font-semibold mb-4">
+          <i className="fa-solid fa-arrow-up-from-bracket"></i> Single Certificate Verification
+        </h2>
 
-      {sha256 && (
-        <div className="mb-4 p-3 bg-gray-50 border rounded text-sm break-words">
-          <span className="font-medium">Generated SHA256:</span>
-          <p className="text-gray-600">{sha256}</p>
-        </div>
-      )}
-
-      <button
-        onClick={handleVerify}
-        disabled={loading}
-        className="w-full py-2 bg-blue-800 text-white rounded"
-      >
-        {loading ? "Verifying..." : "Verify Certificate"}
-      </button>
-
-      {result && (
         <div
-          className={`mt-4 p-4 rounded text-center ${
-            result.found ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-          }`}
+          className="mb-4"
+          style={{ padding: "20px", borderRadius: "10px", background: "#f9f9f9" }}
         >
-          {result.found ? (
-            <div>
-              <p className="font-semibold">✅ Certificate Verified!</p>
-              <p>Certificate ID: {result.data.cert_id}</p>
-              <p>Candidate Name: {result.data.student_name}</p>
-            </div>
-          ) : (
-            <p>❌ {result.message || "Certificate not found"}</p>
-          )}
+          <label className="font-bold">Upload Certificate for Verification</label>
+          <br />
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className="block w-full mt-2 p-2 border border-gray-300 rounded cursor-pointer"
+          />
+          <br /><br />
         </div>
-      )}
+
+        {sha256 && (
+          <div className="mb-4 p-3 bg-gray-50 border rounded text-sm break-words">
+            <span className="font-medium">Generated SHA256:</span>
+            <p className="text-gray-600">{sha256}</p>
+          </div>
+        )}
+
+        <button
+          onClick={handleVerify}
+          disabled={loading}
+          className="w-full py-2 bg-blue-800 text-white rounded"
+        >
+          {loading ? "Verifying..." : "Verify Certificate"}
+        </button>
+      </div>
     </div>
   );
 };
 
 export default VerificationCertificate;
+
