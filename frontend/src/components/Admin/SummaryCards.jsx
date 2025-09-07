@@ -1,11 +1,19 @@
-components/Admin/SummaryCards.jsx
-import React from "react";
 
 const SummaryCards = ({ stats, institutionData }) => {
+  if (!stats || stats.length === 0) {
+    return <p>No stats to display</p>;
+  }
+
   return (
-    <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", marginBottom: "30px" }}>
+    <div
+      style={{
+        display: "flex",
+        gap: "20px",
+        flexWrap: "wrap",
+        marginBottom: "30px",
+      }}
+    >
       {stats.map((stat, i) => {
-        // ✅ If the label is Institutions, append the count
         const label =
           stat.label.toLowerCase().includes("institution")
             ? `${stat.label} (${institutionData.length})`
@@ -21,6 +29,12 @@ const SummaryCards = ({ stats, institutionData }) => {
               padding: "20px",
               boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
               minWidth: "200px",
+              minHeight: "100px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
             }}
           >
             <div style={{ fontSize: "14px", color: "#666" }}>{label}</div>
@@ -34,7 +48,9 @@ const SummaryCards = ({ stats, institutionData }) => {
                 gap: "10px",
               }}
             >
-              <i className={stat.iconClass}></i> {stat.value.toLocaleString()}
+              {/* Font Awesome Icon */}
+              <i className={stat.iconClass}></i>
+              {stat.value.toLocaleString()}
             </div>
           </div>
         );

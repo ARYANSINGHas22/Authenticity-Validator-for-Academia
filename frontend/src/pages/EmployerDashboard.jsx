@@ -3,6 +3,8 @@ import BulkUpload from "../components/BulkUpload";
 import VerificationCertificate from "../components/VerifyCertificates";
 import VerificationHistory from "../components/VerificationHistory";
 import "../App.css";
+import LogoutButton from "../components/LogoutButton"; // adjust path
+
 
 const EmployerDashboard = () => {
   const [verificationHistory, setVerificationHistory] = useState([
@@ -43,8 +45,18 @@ const EmployerDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h1 className="dashboard-title">Employer Dashboard</h1>
 
+       <div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "20px",
+  }}
+>
+  <h1 style={{ margin: 0 }}>Admin Dashboard</h1>
+  <LogoutButton />
+</div>
       {/* Side by side components */}
       <div className="dashboard-row">
         <div className="dashboard-column">
