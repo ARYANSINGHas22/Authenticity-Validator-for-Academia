@@ -68,4 +68,55 @@ app.post("/api/verify", (req, res) => {
   );
 });
 
+
+app.post("/api/verify-bulk", (req, res) => {
+  const { certificates } = req.body; // [{ fileName, sha256 }]
+
+  if (!certificates || !Array.isArray(certificates)) {
+    return res.status(400).json({ message: "Certificates array required" });
+  }
+
+  const results = [];
+  let completed = 0;
+
+  certificates.forEach(({ fileName, sha256 }) => {
+    db.query(
+      "SELECT certi_id, C_name FROM Certificate WHERE sha_id = ? LIMIT 1",
+      [sha256],
+      (err, rows) => {
+        completed++;
+
+        if (err) {
+          results.push({
+            fileName,
+            found: false,
+            message: "Server error",
+          });
+        } else if (rows.length > 0) {
+          results.push({
+            fileName,
+            found: true,
+            data: {
+              cert_id: rows[0].certi_id,
+              student_name: rows[0].C_name,
+            },
+          });
+        } else {
+          results.push({
+            fileName,
+            found: false,
+            message: "Certificate not found",
+          });
+        }
+
+        // When all queries finish → return
+        if (completed === certificates.length) {
+          res.json(results);
+        }
+      }
+    );
+  });
+});
+
+
 app.listen(5000, () => console.log("✅ Backend running on http://localhost:5000"));
