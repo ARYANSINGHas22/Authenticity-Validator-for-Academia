@@ -5,7 +5,6 @@ import VerificationHistory from "../components/VerificationHistory";
 import "../App.css";
 import LogoutButton from "../components/LogoutButton"; // adjust path
 
-
 const EmployerDashboard = () => {
   const [verificationHistory, setVerificationHistory] = useState([
     {
@@ -28,35 +27,53 @@ const EmployerDashboard = () => {
     },
   ]);
 
-  const [popupResult, setPopupResult] = useState(null); // modal result state
+  const [popupQueue, setPopupQueue] = useState([]); // queue for popups
+  const [popupResult, setPopupResult] = useState(null);
 
+  // Single verification result handler
   const handleNewResult = (result) => {
     setVerificationHistory((prev) => [result, ...prev]);
-    setPopupResult(result); // open modal with result
+    setPopupResult(result);
   };
 
+  // Close popup and show next in queue if available
   const handleClosePopup = () => {
-    setPopupResult(null);
+    if (popupQueue.length > 0) {
+      const [next, ...rest] = popupQueue;
+      setPopupResult(next);
+      setPopupQueue(rest);
+    } else {
+      setPopupResult(null);
+    }
   };
 
+  // Bulk upload handler
   const handleBulkUpload = (entries) => {
+    if (!entries || entries.length === 0) return;
+
+    // Add all entries to history
     setVerificationHistory((prev) => [...entries, ...prev]);
+
+    // Add all entries to popup queue and show first popup
+    setPopupQueue(entries.slice(1));
+    setPopupResult(entries[0]);
   };
 
   return (
     <div className="dashboard-container">
+      {/* Header with Logout */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <h1 style={{ margin: 0 }}>Employer Dashboard</h1>
+        <LogoutButton />
+      </div>
 
-       <div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "20px",
-  }}
->
-  <h1 style={{ margin: 0 }}>Admin Dashboard</h1>
-  <LogoutButton />
-</div>
       {/* Side by side components */}
       <div className="dashboard-row">
         <div className="dashboard-column">
@@ -122,16 +139,30 @@ const EmployerDashboard = () => {
             </div>
 
             {popupResult.found ? (
-              <div className="card" style={{ color: "black" , boxShadow: "0 2px 4px rgba(0, 0, 0, 0.5)"}}>
-                
-                <p style={{marginTop:"3%"}}>
+              <div
+                className="card"
+                style={{
+                  color: "black",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+                }}
+              >
+                <p style={{ marginTop: "3%" }}>
                   <strong>Name:</strong> {popupResult.data.student_name}
                 </p>
                 <p>
                   <strong>ID:</strong> {popupResult.data.cert_id}
                 </p>
-                <p style={{  color:"white ",backgroundColor:"green",  borderRadius: "15px" , textAlign:"center" ,padding:"2%" ,margin:"5%"}}>
-                   Certificate Verified!
+                <p
+                  style={{
+                    color: "white",
+                    backgroundColor: "green",
+                    borderRadius: "15px",
+                    textAlign: "center",
+                    padding: "2%",
+                    margin: "5%",
+                  }}
+                >
+                  Certificate Verified!
                 </p>
               </div>
             ) : (
@@ -171,4 +202,3 @@ const EmployerDashboard = () => {
 };
 
 export default EmployerDashboard;
-
