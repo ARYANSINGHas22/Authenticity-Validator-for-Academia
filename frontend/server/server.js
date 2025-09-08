@@ -237,5 +237,23 @@ app.get("/api/stats", (req, res) => {
 });
 
 
+app.get("/api/system-status", (req, res) => {
+  // Check database connection
+  db.ping((err) => {
+    const dbStatus = err ? { status: "Offline", color: "red" } : { status: "Online", color: "green" };
+
+    // For simplicity, hardcode other services for now
+    const status = [
+      { name: "OCR Processing", status: "Online", color: "green" },
+      { name: "Database", ...dbStatus },
+      { name: "Blockchain Registry", status: "Syncing", color: "orange" },
+      { name: "Alert System", status: "Online", color: "green" },
+    ];
+
+    res.json(status);
+  });
+});
+
+
 
 app.listen(5000, () => console.log("✅ Backend running on http://localhost:5000"));

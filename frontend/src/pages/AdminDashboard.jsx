@@ -10,6 +10,7 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [institutionData, setInstitutionData] = useState([]);
   const [stats, setStats] = useState([]);
+  const [systemStatus, setSystemStatus] = useState([]);
 
   const alerts = [
     { type: "Suspicious Certificate Detected", message: 'Fake Harvard diploma submitted by employer "TechCorp Solutions"', time: "2 hours ago", color: "#ffecec" },
@@ -17,15 +18,8 @@ const AdminDashboard = () => {
     { type: "Blacklist Match", message: "Known fraudulent employer attempted verification", time: "1 day ago", color: "#ffecec" },
   ];
 
-  const systemStatus = [
-    { name: "OCR Processing", status: "Online", color: "green" },
-    { name: "Database", status: "Online", color: "green" },
-    { name: "Blockchain Registry", status: "Syncing", color: "orange" },
-    { name: "Alert System", status: "Online", color: "green" },
-  ];
-
-  // Fetch institutions + stats
-  useEffect(() => {
+  // Fetch institutions and summary stats
+  const fetchData = () => {
     axios.get("http://localhost:5000/api/institutions")
       .then((res) => setInstitutionData(res.data))
       .catch((err) => console.error("Error fetching institutions:", err));
@@ -40,6 +34,35 @@ const AdminDashboard = () => {
         ]);
       })
       .catch((err) => console.error("Error fetching stats:", err));
+  };
+
+  // Fetch system service status
+  const fetchSystemStatus = () => {
+    axios.get("http://localhost:5000/api/system-status")
+      .then((res) => setSystemStatus(res.data))
+      .catch((err) => {
+        console.error("Error fetching system status:", err);
+        // If backend fails, show all services offline
+        setSystemStatus([
+          { name: "OCR Processing", status: "Offline", color: "red" },
+          { name: "Database", status: "Offline", color: "red" },
+          { name: "Blockchain Registry", status: "Offline", color: "red" },
+          { name: "Alert System", status: "Offline", color: "red" },
+        ]);
+      });
+  };
+
+  // Initial fetch and polling every 5 seconds
+  useEffect(() => {
+    fetchData();
+    fetchSystemStatus();
+
+    const interval = setInterval(() => {
+      fetchData();
+      fetchSystemStatus();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -57,13 +80,16 @@ const AdminDashboard = () => {
       </div>
 
       <SummaryCards stats={stats} institutionData={institutionData} />
+
       <InstitutionManagement
         institutionData={institutionData}
         setInstitutionData={setInstitutionData}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
+
       <RecentAlerts alerts={alerts} />
+
       <SystemStatus systemStatus={systemStatus} institutionData={institutionData} />
     </div>
   );
