@@ -40,9 +40,6 @@ const AdminDashboard = () => {
   return (
     <div style={{ padding: "30px", fontFamily: "Arial" }}>
 
-      {/* <h1 style={{ marginBottom: "20px" }}>Admin Dashboard</h1>
-      <LogoutButton /> */}
-
 <div
   style={{
     display: "flex",

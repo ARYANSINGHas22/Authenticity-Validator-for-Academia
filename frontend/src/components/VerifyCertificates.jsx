@@ -89,7 +89,7 @@ const VerificationCertificate = ({ onResult }) => {
           onClick={handleVerify}
           disabled={loading}
           className="w-full py-2 bg-blue-800 text-white rounded"
-        >
+         style={{background: "#0033cc"}}>
           {loading ? "Verifying..." : "Verify Certificate"}
         </button>
       </div>

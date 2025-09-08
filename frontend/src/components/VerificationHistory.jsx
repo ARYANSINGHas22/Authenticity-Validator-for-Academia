@@ -91,8 +91,8 @@ const VerificationHistory = ({ history }) => {
         }
         
         .header-section {
-          background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-          color: white;
+        //  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+          color: black;
           padding: 1.5rem 2rem;
           display: flex;
           align-items: center;

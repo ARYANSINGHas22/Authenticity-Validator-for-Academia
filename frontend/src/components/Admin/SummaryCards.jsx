@@ -1,4 +1,3 @@
-
 const SummaryCards = ({ stats, institutionData }) => {
   if (!stats || stats.length === 0) {
     return <p>No stats to display</p>;

@@ -58,29 +58,6 @@ const LoginForm = ({ isSignup: isSignupProp }) => {
 
       const data = await res.json();
 
-    //   if (res.ok) {
-    //     localStorage.setItem("user", JSON.stringify(data.user));
-    //     localStorage.setItem("authToken", data.token);
-
-    //     setMessage(isSignup ? "✅ Account created successfully!" : "✅ Login successful!");
-    //     setMessageType("success");
-
-    //     console.log("User:", data.user);
-
-    //     setTimeout(() => navigate("/Dashboard.jsx"), 1000); // Navigate after 1s to show message
-    //   } else {
-    //     setMessage("❌ " + data.message);
-    //     setMessageType("error");
-    //     setErrors({ submit: data.message });
-    //   }
-    // } catch (err) {
-    //   console.error(err);
-    //   setMessage("⚠️ Something went wrong. Try again later.");
-    //   setMessageType("error");
-    //   setErrors({ submit: "Network error. Please try again." });
-    // } finally {
-    //   setIsLoading(false);
-    // }
     if (res.ok) {
   localStorage.setItem("user", JSON.stringify(data.user));
   localStorage.setItem("authToken", data.token);
@@ -161,12 +138,12 @@ const LoginForm = ({ isSignup: isSignupProp }) => {
         </div>
       )}
 
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
+      <div style={{ textAlign: "center", marginBottom: "10px" }}>
         <p>{isSignup ? "Create your account to get started!" : "Welcome back! Please login to continue."}</p>
       </div>
 
       {/* Email Field */}
-      <div className="mb-3">
+      <div>
         <label htmlFor="email" className="form-label fw-bold">Email</label>
         <input
           id="email"
@@ -182,7 +159,7 @@ const LoginForm = ({ isSignup: isSignupProp }) => {
       </div>
 
       {/* Password Field */}
-      <div className="mb-3">
+      <div >
         <label htmlFor="password" className="form-label fw-bold">Password</label>
         <div className="input-group">
           <input
@@ -204,7 +181,7 @@ const LoginForm = ({ isSignup: isSignupProp }) => {
 
       {/* Confirm Password Field */}
       {isSignup && (
-        <div className="mb-3">
+        <div>
           <label htmlFor="confirmPassword" className="form-label fw-bold">Confirm Password</label>
           <div className="input-group">
             <input
