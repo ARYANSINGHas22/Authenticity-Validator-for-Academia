@@ -440,7 +440,7 @@ const EmployerDashboard = () => {
   };
 
   return (
-    <div className="dashboard-container" style={{ width: "100%" ,  margin: "20px"}}>
+    <div className="dashboard-container" style={{ width: "96%" ,  margin: "20px"}}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
         <h1 style={{ margin: 0 }}>Employer Dashboard</h1>
@@ -464,6 +464,7 @@ const EmployerDashboard = () => {
         <button
           className={`tab-button ${activeTab === "history" ? "active" : ""}`}
           onClick={() => setActiveTab("history")}
+          style={{height:"10%"}}
         >
           Verification History
         </button>
@@ -559,7 +560,7 @@ const EmployerDashboard = () => {
           padding:1%;
           border-radius: 12px;
           overflow: hidden;
-          margin: 20px;
+          // margin: 20px;
         }
 
         .tab-button {
