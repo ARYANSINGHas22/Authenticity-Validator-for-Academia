@@ -118,5 +118,124 @@ app.post("/api/verify-bulk", (req, res) => {
   });
 });
 
+app.post("/api/institutions", (req, res) => {
+  const { name, type } = req.body;
+
+  if (!name || !type) {
+    return res.status(400).json({ success: false, message: "Name and type are required" });
+  }
+
+  const certificates = 0;
+  const status = "Pending Review";
+
+  db.query(
+    "INSERT INTO Institutions (name, type, certificates, status) VALUES (?, ?, ?, ?)",
+    [name, type, certificates, status],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ success: false, message: "Database error" });
+      }
+      res.json({
+        success: true,
+        institution: {
+          id: result.insertId,
+          name,
+          type,
+          certificates,
+          status
+        }
+      });
+    }
+  );
+});
+
+app.put("/api/institutions/:id/suspend", (req, res) => {
+  const { id } = req.params;
+  db.query(
+    "UPDATE Institutions SET status = 'Suspended' WHERE id = ?",
+    [id],
+    (err, result) => {
+      if (err) return res.status(500).json({ success: false, message: "Database error" });
+      res.json({ success: true, message: "Institution suspended" });
+    }
+  );
+});
+
+// Edit institution (name/type)
+app.put("/api/institutions/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, type } = req.body;
+
+  if (!name || !type) {
+    return res.status(400).json({ success: false, message: "Name and type are required" });
+  }
+
+  db.query(
+    "UPDATE Institutions SET name = ?, type = ? WHERE id = ?",
+    [name, type, id],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ success: false, message: "Database error" });
+      }
+      res.json({ success: true, message: "Institution updated" });
+    }
+  );
+});
+
+// Unsuspend institution
+app.put("/api/institutions/:id/unsuspend", (req, res) => {
+  const { id } = req.params;
+  db.query(
+    "UPDATE Institutions SET status = 'Active' WHERE id = ?",
+    [id],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ success: false, message: "Database error" });
+      }
+      res.json({ success: true, message: "Institution unsuspended" });
+    }
+  );
+});
+
+
+app.get("/api/institutions", (req, res) => {
+  db.query("SELECT * FROM Institutions", (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ success: false, message: "Database error" });
+    }
+    res.json(results);
+  });
+});
+
+
+app.get("/api/stats", (req, res) => {
+  const stats = {};
+
+  // Count institutions
+  db.query("SELECT COUNT(*) AS totalInstitutions FROM Institutions", (err, results) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+    stats.totalInstitutions = results[0].totalInstitutions;
+
+    // Count suspended institutions
+    db.query("SELECT COUNT(*) AS suspendedInstitutions FROM Institutions WHERE status = 'Suspended'", (err, results) => {
+      if (err) return res.status(500).json({ message: "Database error" });
+      stats.suspendedInstitutions = results[0].suspendedInstitutions;
+
+      // Count certificates
+      db.query("SELECT COUNT(*) AS totalCertificates FROM Certificate", (err, results) => {
+        if (err) return res.status(500).json({ message: "Database error" });
+        stats.totalCertificates = results[0].totalCertificates;
+
+        res.json(stats);
+      });
+    });
+  });
+});
+
+
 
 app.listen(5000, () => console.log("✅ Backend running on http://localhost:5000"));
