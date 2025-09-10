@@ -10,6 +10,7 @@ const SummaryCards = ({ stats, institutionData }) => {
         gap: "20px",
         flexWrap: "wrap",
         marginBottom: "30px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
       }}
     >
       {stats.map((stat, i) => {

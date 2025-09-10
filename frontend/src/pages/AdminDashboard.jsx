@@ -5,6 +5,7 @@ import InstitutionManagement from "../components/Admin/InstitutionManagement";
 import RecentAlerts from "../components/Admin/RecentAlerts";
 import SystemStatus from "../components/Admin/SystemStatus";
 import LogoutButton from "../components/LogoutButton";
+import AddCertificate from "../components/Admin/AddCertificate";
 
 const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,11 +13,11 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState([]);
   const [systemStatus, setSystemStatus] = useState([]);
 
-  const alerts = [
-    { type: "Suspicious Certificate Detected", message: 'Fake Harvard diploma submitted by employer "TechCorp Solutions"', time: "2 hours ago", color: "#ffecec" },
-    { type: "Unusual Upload Pattern", message: 'Agency "QuickHire" uploaded 50+ certificates in 10 minutes', time: "5 hours ago", color: "#fffbe6" },
-    { type: "Blacklist Match", message: "Known fraudulent employer attempted verification", time: "1 day ago", color: "#ffecec" },
-  ];
+const alerts = [
+  { type: "Suspicious Certificate Detected", message: 'Fake Harvard diploma submitted by employer "TechCorp Solutions"', time: "2 hours ago", color: "#ffecec" },
+  { type: "Unusual Upload Pattern", message: 'Agency "QuickHire" uploaded 50+ certificates in 10 minutes', time: "5 hours ago", color: "#fffbe6" },
+  { type: "Blacklist Match", message: "Known fraudulent employer attempted verification", time: "1 day ago", color: "#ffecec" },
+];
 
   // Fetch institutions and summary stats
   const fetchData = () => {
@@ -67,17 +68,18 @@ const AdminDashboard = () => {
 
   return (
     <div style={{ padding: "30px", fontFamily: "Arial" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <h1 style={{ margin: 0 }}>Admin Dashboard</h1>
-        <LogoutButton />
-      </div>
+
+<div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "20px",
+  }}
+>
+  <h1 style={{ margin: 0 }}>Admin Dashboard</h1>
+  <LogoutButton />
+</div>
 
       <SummaryCards stats={stats} institutionData={institutionData} />
 
@@ -87,7 +89,9 @@ const AdminDashboard = () => {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
       />
-
+      
+      <AddCertificate/>
+      <br></br>
       <RecentAlerts alerts={alerts} />
 
       <SystemStatus systemStatus={systemStatus} institutionData={institutionData} />
