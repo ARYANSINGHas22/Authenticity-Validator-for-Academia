@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,15 +9,12 @@ function Navbar() {
   };
 
   const handleDashboardClick = () => {
-    // Get user role from localStorage, context, or wherever you store it
-    const userRole = localStorage.getItem('userRole'); // or sessionStorage, context, etc.
-    
+    const userRole = localStorage.getItem('userRole');
     if (userRole === 'admin' || userRole === 'administrator') {
       navigate('/admin');
     } else if (userRole === 'employer') {
       navigate('/employer');
     } else {
-      // If no role found, redirect to login
       navigate('/login');
     }
   };
@@ -43,11 +39,10 @@ function Navbar() {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "15px 40px",
-        backgroundColor: "rgb(8, 27, 158)", // ✅ fixed solid blue background
+        background: "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)", // updated to match Home page gradient
         borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
       }}
     >
-      {/* Logo/Brand */}
       <div
         style={{
           color: "white",
@@ -58,8 +53,6 @@ function Navbar() {
       >
         CertValidator
       </div>
-
-      {/* Navigation Links */}
       <div style={{ display: "flex", gap: "30px", alignItems: "center" }}>
         <button
           onClick={handleDashboardClick}
@@ -76,7 +69,6 @@ function Navbar() {
           <i className="fa-solid fa-chart-line" style={{ marginRight: "8px" }}></i>
           Dashboard
         </button>
-
         <button
           onClick={() => handleNavigation("/about")}
           style={navButtonStyle}
@@ -92,7 +84,6 @@ function Navbar() {
           <i className="fa-solid fa-info-circle" style={{ marginRight: "8px" }}></i>
           About
         </button>
-
         <button
           onClick={() => handleNavigation("/contact")}
           style={navButtonStyle}

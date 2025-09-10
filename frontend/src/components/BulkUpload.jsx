@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const gradient = "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)";
+
 const BulkUpload = ({ addMultipleToHistory }) => {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,7 +20,6 @@ const BulkUpload = ({ addMultipleToHistory }) => {
       alert("Please select files to upload!");
       return;
     }
-
     try {
       setLoading(true);
 
@@ -89,8 +90,25 @@ const BulkUpload = ({ addMultipleToHistory }) => {
       <button
         onClick={handleBulkUpload}
         disabled={loading}
-        className="w-full py-2 bg-blue-800 text-white rounded"
-         style={{background: "#0033cc"}}
+        style={{
+          width: "100%",
+          padding: "10px 0",
+          background: gradient,
+          color: "#fff",
+          border: "none",
+          borderRadius: "6px",
+          cursor: loading ? "not-allowed" : "pointer",
+          fontSize: "16px",
+          fontWeight: "600",
+          transition: "filter 0.3s ease",
+          filter: loading ? "grayscale(70%)" : "none",
+        }}
+        onMouseEnter={(e) => {
+          if (!loading) e.currentTarget.style.filter = "brightness(0.9)";
+        }}
+        onMouseLeave={(e) => {
+          if (!loading) e.currentTarget.style.filter = "none";
+        }}
       >
         {loading ? "Processing..." : "Process Bulk Upload"}
       </button>
@@ -99,4 +117,3 @@ const BulkUpload = ({ addMultipleToHistory }) => {
 };
 
 export default BulkUpload;
-

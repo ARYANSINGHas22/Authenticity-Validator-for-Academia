@@ -108,7 +108,6 @@ const About = () => {
     { number: "99.9%", label: "Accuracy Rate" },
   ];
 
-  // Group features into slides of 3
   const slides = [
     [features[0], features[1], features[2]],
     [features[3], features[4], features[5]],
@@ -130,116 +129,65 @@ const About = () => {
           textAlign: "center",
         }}
       >
-        <div
-          style={{
-            maxWidth: "900px",
-            margin: "0 auto",
-          }}
-        >
-          <h1
-            style={{
-              fontSize: "48px",
-              fontWeight: "bold",
-              color: "#212529",
-              marginBottom: "24px",
-              lineHeight: "1.2",
-            }}
-          >
+        <div style={{ maxWidth: "900px", margin: "0 auto" }}>
+          <h1 style={{
+            fontSize: "48px",
+            fontWeight: "bold",
+            color: "#212529",
+            marginBottom: "24px",
+            lineHeight: "1.2",
+          }}>
             About CertValidator
           </h1>
-          <p
-            style={{
-              fontSize: "20px",
-              color: "#6c757d",
-              lineHeight: "1.6",
-              maxWidth: "800px",
-              margin: "0 auto",
-            }}
-          >
-            Leading the revolution in academic credential verification with cutting-edge technology and unwavering
-            commitment to educational integrity.
+          <p style={{
+            fontSize: "20px",
+            color: "#6c757d",
+            lineHeight: "1.6",
+            maxWidth: "800px",
+            margin: "0 auto",
+          }}>
+            Leading the revolution in academic credential verification with cutting-edge technology and unwavering commitment to educational integrity.
           </p>
         </div>
       </section>
 
       {/* Mission Section */}
-      <section
-        style={{
-          backgroundColor: "white",
-          padding: "80px 20px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-            textAlign: "center",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "36px",
-              fontWeight: "bold",
-              color: "#212529",
-              marginBottom: "32px",
-            }}
-          >
+      <section style={{ backgroundColor: "white", padding: "80px 20px" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{
+            fontSize: "36px",
+            fontWeight: "bold",
+            color: "#212529",
+            marginBottom: "32px",
+          }}>
             Our Mission
           </h2>
-          <div
-            style={{
-              fontSize: "18px",
-              color: "#6c757d",
-              lineHeight: "1.8",
-              maxWidth: "800px",
-              margin: "0 auto",
-            }}
-          >
+          <div style={{
+            fontSize: "18px",
+            color: "#6c757d",
+            lineHeight: "1.8",
+            maxWidth: "800px",
+            margin: "0 auto"
+          }}>
             <p style={{ marginBottom: "24px" }}>
-              In an era where academic credentials are increasingly valuable and unfortunately, increasingly
-              counterfeited, CertValidator stands as the guardian of educational integrity. We provide institutions,
-              employers, and individuals with the tools they need to verify academic credentials with absolute
-              certainty.
+              In an era where academic credentials are increasingly valuable and unfortunately, increasingly counterfeited, CertValidator stands as the guardian of educational integrity. We provide institutions, employers, and individuals with the tools they need to verify academic credentials with absolute certainty.
             </p>
             <p style={{ marginBottom: "0" }}>
-              Our advanced verification system combines blockchain technology, machine learning algorithms, and
-              comprehensive database cross-referencing to create an impenetrable shield against academic fraud.
+              Our advanced verification system combines blockchain technology, machine learning algorithms, and comprehensive database cross-referencing to create an impenetrable shield against academic fraud.
             </p>
           </div>
         </div>
       </section>
 
       {/* Features Section - Swipeable */}
-      <section
-        style={{
-          backgroundColor: "#f8f9fa",
-          padding: "80px 20px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-            textAlign: "center",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "36px",
-              fontWeight: "bold",
-              color: "#212529",
-              marginBottom: "64px",
-            }}
-          >
+      <section style={{ backgroundColor: "#f8f9fa", padding: "80px 20px" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", textAlign: "center" }}>
+          <h2 style={{
+            fontSize: "36px", fontWeight: "bold", color: "#212529", marginBottom: "64px",
+          }}>
             Why Choose CertValidator?
           </h2>
-
-          <div
-            style={{
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
+          <div style={{ position: "relative", overflow: "hidden" }}>
             <div
               ref={scrollContainerRef}
               onScroll={handleScroll}
@@ -250,7 +198,7 @@ const About = () => {
                 scrollBehavior: "smooth",
                 gap: "0px",
                 scrollbarWidth: "none",
-                msOverflowStyle: "none",
+                msOverflowStyle: "none"
               }}
             >
               <style>
@@ -299,7 +247,7 @@ const About = () => {
                         style={{
                           width: "64px",
                           height: "64px",
-                          backgroundColor: "rgb(8, 27, 158)",
+                          background: "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)",
                           color: "white",
                           borderRadius: "16px",
                           display: "flex",
@@ -310,24 +258,14 @@ const About = () => {
                       >
                         {feature.icon}
                       </div>
-                      <h3
-                        style={{
-                          fontSize: "20px",
-                          fontWeight: "600",
-                          color: "#212529",
-                          marginBottom: "16px",
-                        }}
-                      >
+                      <h3 style={{
+                        fontSize: "20px", fontWeight: "600", color: "#212529", marginBottom: "16px",
+                      }}>
                         {feature.title}
                       </h3>
-                      <p
-                        style={{
-                          fontSize: "16px",
-                          color: "#6c757d",
-                          lineHeight: "1.6",
-                          margin: 0,
-                        }}
-                      >
+                      <p style={{
+                        fontSize: "16px", color: "#6c757d", lineHeight: "1.6", margin: 0,
+                      }}>
                         {feature.description}
                       </p>
                     </div>
@@ -336,16 +274,10 @@ const About = () => {
               ))}
             </div>
           </div>
-
           {/* Dots indicator */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: "8px",
-              marginTop: "32px",
-            }}
-          >
+          <div style={{
+            display: "flex", justifyContent: "center", gap: "8px", marginTop: "32px",
+          }}>
             {slides.map((_, index) => (
               <button
                 key={index}
@@ -355,7 +287,10 @@ const About = () => {
                   height: "12px",
                   borderRadius: "50%",
                   border: "none",
-                  backgroundColor: currentSlide === index ? "rgb(8, 27, 158)" : "#e9ecef",
+                  background:
+                    currentSlide === index
+                      ? "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)"
+                      : "#e9ecef",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
                 }}
@@ -366,20 +301,14 @@ const About = () => {
       </section>
 
       {/* Stats Section */}
-      <section
-        style={{
-          backgroundColor: "rgb(8, 27, 158)",
-          color: "white",
-          padding: "80px 20px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-            textAlign: "center",
-          }}
-        >
+      <section style={{
+        background: "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)",
+        color: "white",
+        padding: "80px 20px",
+      }}>
+        <div style={{
+          maxWidth: "1200px", margin: "0 auto", textAlign: "center",
+        }}>
           <h2
             style={{
               fontSize: "36px",
@@ -427,67 +356,47 @@ const About = () => {
       </section>
 
       {/* Technology Section */}
-      <section
-        style={{
-          backgroundColor: "white",
-          padding: "80px 20px",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "64px",
-              alignItems: "center",
-            }}
-          >
+      <section style={{ backgroundColor: "white", padding: "80px 20px" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            gap: "64px",
+            alignItems: "center",
+          }}>
             <div>
-              <h2
-                style={{
-                  fontSize: "36px",
-                  fontWeight: "bold",
-                  color: "#212529",
-                  marginBottom: "24px",
-                }}
-              >
+              <h2 style={{
+                fontSize: "36px",
+                fontWeight: "bold",
+                color: "#212529",
+                marginBottom: "24px",
+              }}>
                 Cutting-Edge Technology
               </h2>
-              <p
-                style={{
-                  fontSize: "18px",
-                  color: "#6c757d",
-                  lineHeight: "1.8",
-                  marginBottom: "32px",
-                }}
-              >
-                Our platform leverages the latest advancements in cryptographic security, distributed ledger
-                technology, and artificial intelligence to ensure every verification is accurate, secure, and
-                tamper-proof.
+              <p style={{
+                fontSize: "18px",
+                color: "#6c757d",
+                lineHeight: "1.8",
+                marginBottom: "32px",
+              }}>
+                Our platform leverages the latest advancements in cryptographic security, distributed ledger technology, and artificial intelligence to ensure every verification is accurate, secure, and tamper-proof.
               </p>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "12px",
-                }}
-              >
+              <div style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "12px",
+              }}>
                 {["Blockchain", "Machine Learning", "SHA-256 Hashing", "Digital Signatures"].map((tech, index) => (
                   <span
                     key={index}
                     style={{
-                      backgroundColor: "rgba(8, 27, 158, 0.1)",
-                      color: "rgb(8, 27, 158)",
+                      background: "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)",
+                      color: "white",
                       padding: "8px 16px",
                       borderRadius: "20px",
                       fontSize: "14px",
                       fontWeight: "500",
-                      border: "1px solid rgba(8, 27, 158, 0.3)",
+                      border: "none",
                     }}
                   >
                     {tech}
@@ -507,7 +416,7 @@ const About = () => {
                 style={{
                   width: "120px",
                   height: "120px",
-                  backgroundColor: "rgb(8, 27, 158)",
+                  background: "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)",
                   borderRadius: "50%",
                   display: "flex",
                   alignItems: "center",
@@ -518,23 +427,19 @@ const About = () => {
               >
                 <Icons.Shield />
               </div>
-              <h3
-                style={{
-                  fontSize: "24px",
-                  fontWeight: "600",
-                  color: "#212529",
-                  marginBottom: "16px",
-                }}
-              >
+              <h3 style={{
+                fontSize: "24px",
+                fontWeight: "600",
+                color: "#212529",
+                marginBottom: "16px",
+              }}>
                 Secure & Reliable
               </h3>
-              <p
-                style={{
-                  fontSize: "16px",
-                  color: "#6c757d",
-                  lineHeight: "1.6",
-                }}
-              >
+              <p style={{
+                fontSize: "16px",
+                color: "#6c757d",
+                lineHeight: "1.6",
+              }}>
                 Bank-level security with 99.9% uptime guarantee and instant global accessibility.
               </p>
             </div>
@@ -543,44 +448,32 @@ const About = () => {
       </section>
 
       {/* CTA Section */}
-      <section
-        style={{
-          backgroundColor: "#f8f9fa",
-          padding: "80px 20px",
-          textAlign: "center",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "800px",
-            margin: "0 auto",
-          }}
-        >
-          <h2
-            style={{
-              fontSize: "36px",
-              fontWeight: "bold",
-              color: "#212529",
-              marginBottom: "24px",
-            }}
-          >
+      <section style={{
+        backgroundColor: "#f8f9fa",
+        padding: "80px 20px",
+        textAlign: "center",
+      }}>
+        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+          <h2 style={{
+            fontSize: "36px",
+            fontWeight: "bold",
+            color: "#212529",
+            marginBottom: "24px",
+          }}>
             Ready to Secure Your Credentials?
           </h2>
-          <p
-            style={{
-              fontSize: "18px",
-              color: "#6c757d",
-              marginBottom: "40px",
-              lineHeight: "1.6",
-            }}
-          >
-            Join thousands of institutions and individuals who trust CertValidator with their most important academic
-            achievements.
+          <p style={{
+            fontSize: "18px",
+            color: "#6c757d",
+            marginBottom: "40px",
+            lineHeight: "1.6",
+          }}>
+            Join thousands of institutions and individuals who trust CertValidator with their most important academic achievements.
           </p>
           <button
             onClick={() => navigate("/login")}
             style={{
-              backgroundColor: "rgb(8, 27, 158)",
+              background: "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)",
               color: "white",
               padding: "16px 32px",
               borderRadius: "12px",
@@ -589,17 +482,17 @@ const About = () => {
               fontWeight: "600",
               cursor: "pointer",
               transition: "all 0.3s ease",
-              boxShadow: "0 4px 16px rgba(8, 27, 158, 0.3)",
+              boxShadow: "0 4px 16px rgba(76, 62, 196, 0.2)",
             }}
             onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "rgba(8, 27, 158, 0.8)";
+              e.target.style.filter = "brightness(0.93)";
               e.target.style.transform = "translateY(-2px)";
-              e.target.style.boxShadow = "0 6px 20px rgba(8, 27, 158, 0.4)";
+              e.target.style.boxShadow = "0 6px 20px rgba(76, 62, 196, 0.25)";
             }}
             onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "rgb(8, 27, 158)";
+              e.target.style.filter = "";
               e.target.style.transform = "translateY(0)";
-              e.target.style.boxShadow = "0 4px 16px rgba(8, 27, 158, 0.3)";
+              e.target.style.boxShadow = "0 4px 16px rgba(76, 62, 196, 0.2)";
             }}
           >
             Get Started Today
@@ -608,34 +501,25 @@ const About = () => {
       </section>
 
       {/* Footer */}
-      <footer
-        style={{
-          backgroundColor: "#212529",
-          color: "white",
-          padding: "48px 20px 24px 20px",
-          textAlign: "center",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "0 auto",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "12px",
-              marginBottom: "24px",
-            }}
-          >
+      <footer style={{
+        backgroundColor: "#212529",
+        color: "white",
+        padding: "48px 20px 24px 20px",
+        textAlign: "center",
+      }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "12px",
+            marginBottom: "24px",
+          }}>
             <div
               style={{
                 width: "32px",
                 height: "32px",
-                backgroundColor: "rgb(8, 27, 158)",
+                background: "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)",
                 borderRadius: "8px",
                 display: "flex",
                 alignItems: "center",
@@ -644,23 +528,19 @@ const About = () => {
             >
               <Icons.Shield />
             </div>
-            <h3
-              style={{
-                fontSize: "20px",
-                fontWeight: "bold",
-                margin: 0,
-              }}
-            >
+            <h3 style={{
+              fontSize: "20px",
+              fontWeight: "bold",
+              margin: 0,
+            }}>
               CertValidator
             </h3>
           </div>
-          <p
-            style={{
-              color: "#adb5bd",
-              fontSize: "14px",
-              margin: 0,
-            }}
-          >
+          <p style={{
+            color: "#adb5bd",
+            fontSize: "14px",
+            margin: 0,
+          }}>
             © 2025 CertValidator. Securing educational integrity worldwide.
           </p>
         </div>

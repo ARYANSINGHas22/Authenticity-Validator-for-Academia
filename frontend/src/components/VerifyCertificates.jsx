@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const gradient = "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)";
+
 const VerificationCertificate = ({ onResult }) => {
   const [file, setFile] = useState(null);
   const [sha256, setSha256] = useState("");
@@ -12,7 +14,7 @@ const VerificationCertificate = ({ onResult }) => {
     if (result) {
       const timer = setTimeout(() => {
         setResult(null);
-      }, 3000); // hide after 3s
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [result]);
@@ -88,8 +90,26 @@ const VerificationCertificate = ({ onResult }) => {
         <button
           onClick={handleVerify}
           disabled={loading}
-          className="w-full py-2 bg-blue-800 text-white rounded"
-         style={{background: "#0033cc"}}>
+          style={{
+            width: "100%",
+            padding: "10px 0",
+            background: gradient,
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            cursor: loading ? "not-allowed" : "pointer",
+            fontSize: "16px",
+            fontWeight: "600",
+            transition: "filter 0.3s ease",
+            filter: loading ? "grayscale(70%)" : "none"
+          }}
+          onMouseEnter={e => {
+            if (!loading) e.currentTarget.style.filter = "brightness(0.9)";
+          }}
+          onMouseLeave={e => {
+            if (!loading) e.currentTarget.style.filter = "none";
+          }}
+        >
           {loading ? "Verifying..." : "Verify Certificate"}
         </button>
       </div>
@@ -98,4 +118,3 @@ const VerificationCertificate = ({ onResult }) => {
 };
 
 export default VerificationCertificate;
-

@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +9,10 @@ const Home = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "rgb(8, 27, 158)", minHeight: "100vh" }}>
+    <div style={{ 
+      background: 'linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)', 
+      minHeight: "100vh" 
+    }}>
       {/* Main Content */}
       <div
         style={{

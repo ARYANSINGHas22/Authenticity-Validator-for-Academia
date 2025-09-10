@@ -4,6 +4,8 @@ import VerificationCertificate from "../components/VerifyCertificates";
 import VerificationHistory from "../components/VerificationHistory";
 import LogoutButton from "../components/LogoutButton";
 
+const gradient = "linear-gradient(135deg, hsl(226, 70%, 55%) 0%, hsl(280, 65%, 60%) 100%)";
+
 const EmployerDashboard = () => {
   const [activeTab, setActiveTab] = useState("verify");
 
@@ -187,11 +189,18 @@ const EmployerDashboard = () => {
               style={{
                 marginTop: "20px",
                 padding: "10px 20px",
-                background: "#0033cc",
+                background: gradient,
                 color: "#fff",
                 border: "none",
                 borderRadius: "4px",
                 cursor: "pointer",
+                transition: "background 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.filter = "brightness(0.9)";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.filter = "brightness(1)";
               }}
             >
               Close
@@ -224,8 +233,9 @@ const EmployerDashboard = () => {
         }
 
         .tab-button.active {
-          background-color: #ffffff;
-          color: #1a1a1a;
+          /* Use gradient for active tab background */
+          background: ${gradient};
+          color: white;
           font-weight: 600;
           border-radius: 12px;
         }
@@ -234,7 +244,6 @@ const EmployerDashboard = () => {
           border-top-left-radius: 12px;
           border-bottom-left-radius: 12px;
         }
-
         .tab-button:last-child {
           border-top-right-radius: 12px;
           border-bottom-right-radius: 12px;
