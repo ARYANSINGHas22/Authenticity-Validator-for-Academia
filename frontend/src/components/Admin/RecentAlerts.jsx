@@ -9,6 +9,8 @@ const RecentAlerts = ({ alerts }) => {
       borderRadius: "10px",
       background: "#fff",
       marginBottom: "40px",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+
     }}>
       <h2><i className="fa-solid fa-triangle-exclamation"></i> Recent Alerts</h2>
       {alerts.map((alert, i) => (
@@ -29,3 +31,7 @@ const RecentAlerts = ({ alerts }) => {
 };
 
 export default RecentAlerts;
+
+
+
+
