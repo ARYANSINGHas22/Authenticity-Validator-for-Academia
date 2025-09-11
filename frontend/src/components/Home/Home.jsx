@@ -146,7 +146,7 @@ const Home = () => {
                 height: "100vh",
                 overflow: "hidden",
                 borderRadius: "50% 0 25% 0",
-                boxShadow: "-30px 0 80px rgba(0,0,0,0.25), -10px 0 40px rgba(0,0,0,0.15)",
+                // boxShadow: "-30px 0 80px rgba(0,0,0,0.25), -10px 0 40px rgba(0,0,0,0.15)",
                 marginRight: "0"
               }}
             >
@@ -170,7 +170,8 @@ const Home = () => {
                   height: "100%",
                   objectFit: "cover",
                   objectPosition: "center",
-                  filter: "contrast(1.1) brightness(1.05)"
+                  filter: "contrast(1.1) brightness(1.05)",
+                  
                 }}
               />
             </div>
