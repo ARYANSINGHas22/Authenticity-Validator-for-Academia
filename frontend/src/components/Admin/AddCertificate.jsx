@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const gradient = "linear-gradient(135deg, #4169e1 0%, #9932cc 100%)";
 
@@ -7,12 +7,25 @@ const AddCertificate = () => {
   const [certificateId, setCertificateId] = useState("");
   const [file, setFile] = useState(null);
   const [certificates, setCertificates] = useState([]);
+  const [search, setSearch] = useState("");
 
-  const handleFileChange = e => {
+  // ⬇️ Fetch existing certificates when component loads
+  useEffect(() => {
+    fetch("http://localhost:5000/api/certificates")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setCertificates(data.certificates);
+        }
+      })
+      .catch((err) => console.error("Error fetching certificates:", err));
+  }, []);
+
+  const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!certificateId || !file) {
@@ -20,18 +33,47 @@ const AddCertificate = () => {
       return;
     }
 
-    const newCertificate = {
-      id: certificates.length + 1,
-      certificateId,
-      fileName: file.name,
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+      const base64Data = reader.result.split(",")[1];
+
+      try {
+        const response = await fetch("http://localhost:5000/api/certificates", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            certificateId,
+            studentName: "John Doe", // optional, you can replace
+            fileBase64: base64Data,
+            fileName: file.name,
+          }),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          alert("✅ Certificate uploaded!");
+          setCertificates((prev) => [...prev, data.certificate]); // ⬅️ Append new cert
+          setCertificateId("");
+          setFile(null);
+          setShowPopup(false);
+        } else {
+          alert("❌ Upload failed: " + data.message);
+        }
+      } catch (error) {
+        console.error("Error uploading certificate:", error);
+        alert("Error uploading certificate.");
+      }
     };
-
-    setCertificates([...certificates, newCertificate]);
-
-    setCertificateId("");
-    setFile(null);
-    setShowPopup(false);
   };
+
+  // ⬇️ Filter certificates based on search input
+  const filteredCertificates = certificates.filter(
+    (cert) =>
+      cert.certi_id.toLowerCase().includes(search.toLowerCase()) ||
+      cert.C_name.toLowerCase().includes(search.toLowerCase()) ||
+      cert.sha_id.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <div
@@ -45,6 +87,7 @@ const AddCertificate = () => {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       }}
     >
+      {/* Header */}
       <div
         style={{
           display: "flex",
@@ -53,8 +96,18 @@ const AddCertificate = () => {
           marginBottom: "20px",
         }}
       >
-        <h3 style={{ fontWeight: "700", fontSize: "1.5rem", display: "flex", alignItems: "center", gap: "10px", color: "#334155" }}>
-          <i className="fa-solid fa-file" style={{ color: "#6366f1" }}></i> Add Certificates
+        <h3
+          style={{
+            fontWeight: "700",
+            fontSize: "1.5rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            color: "#334155",
+          }}
+        >
+          <i className="fa-solid fa-file" style={{ color: "#6366f1" }}></i>{" "}
+          Manage Certificates
         </h3>
         <button
           onClick={() => setShowPopup(true)}
@@ -70,14 +123,34 @@ const AddCertificate = () => {
             cursor: "pointer",
             transition: "filter 0.3s ease",
           }}
-          onMouseEnter={e => (e.currentTarget.style.filter = "brightness(0.9)")}
-          onMouseLeave={e => (e.currentTarget.style.filter = "brightness(1)")}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.filter = "brightness(0.9)")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.filter = "brightness(1)")
+          }
           type="button"
         >
           + Add
         </button>
       </div>
 
+      {/* Search */}
+      <input
+        type="text"
+        placeholder="Search by ID, Name, or SHA..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "8px",
+          border: "1.5px solid #cbd5e1",
+          marginBottom: "20px",
+        }}
+      />
+
+      {/* Popup Form */}
       {showPopup && (
         <div
           style={{
@@ -91,7 +164,9 @@ const AddCertificate = () => {
             justifyContent: "center",
             alignItems: "center",
           }}
-          onClick={e => e.target === e.currentTarget && setShowPopup(false)}
+          onClick={(e) =>
+            e.target === e.currentTarget && setShowPopup(false)
+          }
         >
           <div
             style={{
@@ -103,18 +178,31 @@ const AddCertificate = () => {
               position: "relative",
             }}
           >
-            <h3 style={{ marginBottom: "20px", fontWeight: "700", fontSize: "1.5rem", color: "#334155" }}>
+            <h3
+              style={{
+                marginBottom: "20px",
+                fontWeight: "700",
+                fontSize: "1.5rem",
+                color: "#334155",
+              }}
+            >
               Add Certificate
             </h3>
             <form onSubmit={handleSubmit}>
               <div style={{ marginBottom: "20px" }}>
-                <label style={{ display: "block", fontWeight: "600", marginBottom: "8px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontWeight: "600",
+                    marginBottom: "8px",
+                  }}
+                >
                   Certificate ID:
                 </label>
                 <input
                   type="text"
                   value={certificateId}
-                  onChange={e => setCertificateId(e.target.value)}
+                  onChange={(e) => setCertificateId(e.target.value)}
                   placeholder="Enter Certificate ID"
                   required
                   style={{
@@ -123,15 +211,17 @@ const AddCertificate = () => {
                     fontSize: "1rem",
                     borderRadius: "8px",
                     border: "1.5px solid #cbd5e1",
-                    outline: "none",
-                    transition: "border-color 0.3s ease",
                   }}
-                  onFocus={e => (e.currentTarget.style.borderColor = "#6366f1")}
-                  onBlur={e => (e.currentTarget.style.borderColor = "#cbd5e1")}
                 />
               </div>
               <div style={{ marginBottom: "20px" }}>
-                <label style={{ display: "block", fontWeight: "600", marginBottom: "8px" }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontWeight: "600",
+                    marginBottom: "8px",
+                  }}
+                >
                   Upload Certificate:
                 </label>
                 <input
@@ -142,7 +232,13 @@ const AddCertificate = () => {
                   style={{ cursor: "pointer" }}
                 />
               </div>
-              <div style={{ display: "flex", justifyContent: "flex-end", gap: "16px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  gap: "16px",
+                }}
+              >
                 <button
                   type="button"
                   onClick={() => setShowPopup(false)}
@@ -153,11 +249,7 @@ const AddCertificate = () => {
                     borderRadius: "8px",
                     color: "#374151",
                     fontWeight: "600",
-                    cursor: "pointer",
-                    transition: "background-color 0.3s ease",
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#d1d5db")}
-                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#e5e7eb")}
                 >
                   Cancel
                 </button>
@@ -171,11 +263,7 @@ const AddCertificate = () => {
                     color: "white",
                     fontWeight: "700",
                     cursor: "pointer",
-                    boxShadow: "0 6px 14px rgb(65 105 225 / 0.6)",
-                    transition: "filter 0.3s ease",
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.filter = "brightness(0.9)")}
-                  onMouseLeave={e => (e.currentTarget.style.filter = "brightness(1)")}
                 >
                   Save
                 </button>
@@ -192,31 +280,46 @@ const AddCertificate = () => {
           marginTop: "20px",
           borderCollapse: "collapse",
           fontSize: "1rem",
-          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         }}
       >
         <thead>
           <tr style={{ backgroundColor: "#eef2ff" }}>
-            <th style={{ padding: "14px", textAlign: "left", borderBottom: "2px solid #c7d2fe", color: "#6366f1" }}>#</th>
-            <th style={{ padding: "14px", textAlign: "left", borderBottom: "2px solid #c7d2fe", color: "#6366f1" }}>
+            <th style={{ padding: "14px", borderBottom: "2px solid #c7d2fe" }}>
+              #
+            </th>
+            <th style={{ padding: "14px", borderBottom: "2px solid #c7d2fe" }}>
               Certificate ID
             </th>
-            <th style={{ padding: "14px", textAlign: "left", borderBottom: "2px solid #c7d2fe", color: "#6366f1" }}>File Name</th>
+            <th style={{ padding: "14px", borderBottom: "2px solid #c7d2fe" }}>
+              Student Name
+            </th>
+            <th style={{ padding: "14px", borderBottom: "2px solid #c7d2fe" }}>
+              SHA
+            </th>
           </tr>
         </thead>
         <tbody>
-          {certificates.length === 0 ? (
+          {filteredCertificates.length === 0 ? (
             <tr>
-              <td colSpan="3" style={{ padding: "20px", textAlign: "center", color: "#94a3b8", fontStyle: "italic" }}>
-                No certificates uploaded yet.
+              <td
+                colSpan="4"
+                style={{
+                  padding: "20px",
+                  textAlign: "center",
+                  color: "#94a3b8",
+                  fontStyle: "italic",
+                }}
+              >
+                No certificates found.
               </td>
             </tr>
           ) : (
-            certificates.map(cert => (
+            filteredCertificates.map((cert) => (
               <tr key={cert.id} style={{ borderBottom: "1px solid #e0e7ff" }}>
                 <td style={{ padding: "14px" }}>{cert.id}</td>
-                <td style={{ padding: "14px" }}>{cert.certificateId}</td>
-                <td style={{ padding: "14px" }}>{cert.fileName}</td>
+                <td style={{ padding: "14px" }}>{cert.certi_id}</td>
+                <td style={{ padding: "14px" }}>{cert.C_name}</td>
+                <td style={{ padding: "14px" }}>{cert.sha_id}</td>
               </tr>
             ))
           )}

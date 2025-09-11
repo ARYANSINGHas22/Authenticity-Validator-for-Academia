@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mysql from "mysql2"; // or mongoose if MongoDB
 import cors from "cors";
+import crypto from "crypto";
 
 const app = express();
 app.use(cors({
@@ -251,6 +252,56 @@ app.get("/api/system-status", (req, res) => {
     ];
 
     res.json(status);
+  });
+});
+
+
+
+app.post("/api/certificates", (req, res) => {
+  const { certificateId, studentName, fileBase64 } = req.body;
+
+  if (!certificateId || !fileBase64) {
+    return res.status(400).json({ success: false, message: "Certificate ID and file are required" });
+  }
+
+  // Convert Base64 → Buffer
+  const fileBuffer = Buffer.from(fileBase64, "base64");
+
+  // Generate SHA256 hash
+  const sha256 = crypto.createHash("sha256").update(fileBuffer).digest("hex");
+
+  // Insert into DB (only certi_id, C_name, sha_id)
+  db.query(
+    "INSERT INTO Certificate (certi_id, C_name, sha_id) VALUES (?, ?, ?)",
+    [certificateId, studentName || null, sha256],
+    (err, result) => {
+      if (err) {
+        console.error("❌ MySQL Error:", err.sqlMessage);
+        return res.status(500).json({ success: false, message: "Database error", error: err.sqlMessage });
+      }
+      res.json({
+        success: true,
+        message: "Certificate uploaded successfully",
+        certificate: {
+          id: result.insertId,
+          certificateId,
+          studentName,
+          sha256
+        }
+      });
+    }
+  );
+});
+
+
+
+app.get("/api/certificates", (req, res) => {
+  db.query("SELECT * FROM Certificate", (err, results) => {
+    if (err) {
+      console.error("❌ MySQL Error:", err.sqlMessage);
+      return res.status(500).json({ success: false, message: "Database error", error: err.sqlMessage });
+    }
+    res.json({ success: true, certificates: results });
   });
 });
 
